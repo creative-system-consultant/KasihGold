@@ -4,12 +4,19 @@ namespace App\Http\Livewire\Page\Shop;
 
 use App\Models\InvInfo;
 use App\Models\InvItem;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class ProductView extends Component
 {
 
     public $digitalGold, $digitalDinar, $premiumGold;
+
+    public function clearBuyingForCustomer()
+    {
+        Session::forget(['buying_for_customer_id', 'buying_for_customer_name']);
+        $this->emit('buyingForCustomerCleared');
+    }
 
     public function mount()
     {

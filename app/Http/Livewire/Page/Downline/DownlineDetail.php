@@ -6,6 +6,7 @@ use App\Models\ReferralCode;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Session;
 
 class DownlineDetail extends Component
 {
@@ -51,6 +52,16 @@ class DownlineDetail extends Component
         session()->flash('success');
         session()->flash('title', 'Success!');
         session()->flash('message', 'Referral code has been successfully generated.');
+    }
+
+    public function buyForCustomer($customerId)
+    {
+        if (auth()->user()->financing_role == 1) {
+            $customer = User::find($customerId);
+            Session::put('buying_for_customer_id', $customerId);
+            Session::put('buying_for_customer_name', $customer->name);
+            return redirect()->route('product-view');
+        }
     }
 
     public function render()

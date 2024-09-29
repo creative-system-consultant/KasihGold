@@ -6,6 +6,7 @@ use App\Models\GoldbarOwnership;
 use App\Models\GoldbarOwnershipPending;
 use App\Models\InvCart;
 use App\Models\InvInfo;
+use App\Models\scheduler_interval;
 use App\Models\MarketPrice;
 use App\Models\SnapNPay;
 use App\Models\ToyyibBills;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 
 /*
@@ -57,7 +59,7 @@ Artisan::command('UpdateSpotPrice', function () {
     $spotGold = InvInfo::where('prod_cat', 3)->first();
 
 
-    if (($spotGold->item->marketPrice->updated_at <= now()->subMinutes(60))) {
+    if (($spotGold->item->marketPrice->updated_at <= now()->subMinutes(1440))) {
 
         $option = array(
             'access_key' => 'vd1ud4ptyr6cnr2o4o97sfii8uxc9yrnybsihvmp9x58g516nd2csi50w9cj',
@@ -70,7 +72,8 @@ Artisan::command('UpdateSpotPrice', function () {
         $response = json_decode($response->getBody()->getContents());
 
         $this->spotPrice = ($response->rates->XAU / 31.1035);
-
+        Log::info($this->spotPrice);
+        Log::info('spot price');
         $spotGold->item->marketPrice->update(['price' => number_format($this->spotPrice, 2), 'updated_at' => now()]);
     }
 })->purpose('Display an inspiring quote');
@@ -121,6 +124,12 @@ Artisan::command('UpdateSnapNPayPayment', function () {
 
 Artisan::command('UpdatePayment', function () {
 
+    // scheduler_interval::create([
+    //     'created_at'        => now(),
+    //     'updated_at'        => now(),
+    //     'type'        => "UP",
+    // ]);
+
     $pendingPayment = ToyyibBills::where('status', 2)
         ->get();
 
@@ -144,10 +153,14 @@ Artisan::command('UpdatePayment', function () {
                 GoldbarOwnership::create([
                     'gold_id'           => $pendingG->gold_id,
                     'user_id'           => $pendingG->user_id,
+                    'item_id'           => $pendingG->item_id,
                     'ouid'              => (string) Str::uuid(),
                     'weight'            => $pendingG->weight,
+                    'available_weight'  => $pendingG->weight,
                     'bought_price'      => $pendingG->bought_price,
                     'active_ownership'  => 1,
+                    'spot_gold'         => $pendingG->spot_gold,
+                    'financing_flag'    => $pendingG->financing_flag,
                     'referenceNumber'   => $pendingG->referenceNumber,
                     'created_by'        => 0, //id 0 meaning that it has been updated by the scheduler
                     'updated_by'        => 0,

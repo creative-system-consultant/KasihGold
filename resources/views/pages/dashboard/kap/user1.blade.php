@@ -1,27 +1,28 @@
 <div class="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-8 xxl:col-span-8">
     <div class="grid grid-cols-1 gap-6 mt-10 xl:grid-cols-2">
-        <x-dashboard.info-card-user bg="yellow-400" title="Digital Gold" value="{{$this->tGold}} G" iconColor='white'
+        <x-dashboard.info-card-user bg="yellow-400" title="Available Digital Gold" value="{{$this->tGold}} G" iconColor='white'
             cardRoute="{{route('digital-gold')}}">
             <x-slot name="svg">
                 <x-heroicon-o-desktop-computer class="w-8 h-8 text-yellow-400" />
             </x-slot>
         </x-dashboard.info-card-user>
-        <x-dashboard.info-card-user bg="teal-400" title="Physical Gold" value="{{$this->pGold}} G" iconColor='white'
+        <x-dashboard.info-card-user bg="teal-400" title="Locked Digital Gold" value="{{$this->lGold}} G" iconColor='white'
             cardRoute="{{route('physical-gold')}}">
             <x-slot name="svg">
                 <x-heroicon-o-user class="w-8 h-8 text-teal-400" />
             </x-slot>
         </x-dashboard.info-card-user>
-        <x-dashboard.info-card-user bg="pink-400" title="" value="Purchase History" iconColor='white'
-            cardRoute="{{route('purchase-history')}}">
-            <x-slot name="svg">
-                <x-heroicon-o-clipboard-copy class="w-8 h-8 text-pink-400" />
-            </x-slot>
-        </x-dashboard.info-card-user>
+
         <x-dashboard.info-card-user bg="indigo-400" title="" value="Buy Product" iconColor='white'
             cardRoute="{{route('product-view')}}">
             <x-slot name="svg">
                 <x-heroicon-o-shopping-bag class="w-8 h-8 text-indigo-400" />
+            </x-slot>
+        </x-dashboard.info-card-user>
+          <x-dashboard.info-card-user bg="pink-400" title="" value="Ar-Rahnu Pawn" iconColor='white'
+            cardRoute="{{route('arrahnuPawn')}}">
+            <x-slot name="svg">
+                <x-heroicon-o-cash class="w-8 h-8 text-pink-400" />
             </x-slot>
         </x-dashboard.info-card-user>
     </div>
@@ -49,7 +50,7 @@
                     </x-general.grid>
                 </div>
                 <!-- End Spot Price Digital Gold-->
-                
+
                 <!-- Start Digital Dinar-->
                 <div class="mt-4 mr-4 lg:mr-0 lg:mt-0">
                     <div class="flex items-center mb-4 space-x-2">
@@ -69,7 +70,7 @@
                 </div>
                 <!-- End Digital Dinar-->
                 </x-general.grid>
-                
+
             </div>
             <div class="grid grid-cols-1 gap-0 mt-4 sm:grid-cols-1">
                 <!-- Start Digital Gold-->
@@ -94,7 +95,7 @@
                                 </x-general.grid>
                             @endforeach
                         </div>
-                    
+
                         <div  class="mr-4 lg:mr-0">
                             <p class="mb-2 text-base font-semibold">Sell Price</p>
                             @foreach($digitalPrice as $item)
@@ -116,7 +117,7 @@
             </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 @push('js')

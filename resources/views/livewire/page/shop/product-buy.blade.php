@@ -171,6 +171,17 @@
                                                             </div>
                                                         </div>
 
+                                                        @if(Session::has('buying_for_customer_id'))
+                                                        <div class="flex justify-between mt-4">
+                                                            <div class="font-semibold">
+                                                                <p>Buying For Customer</p>
+                                                                <p>{{Session::get('buying_for_customer_name')}}</p>
+                                                            </div>
+                                                            <div class="font-semibold">
+                                                            </div>
+                                                        </div>
+                                                        @endif
+
                                                         <div class="flex justify-between mt-4">
                                                             <div class="font-semibold">
                                                                 <p>Misc. Charges</p>
@@ -215,10 +226,13 @@
                                                                 <p>Less</p>
                                                             </div>
                                                             <div class="font-semibold text-red-600">
-                                                                <p>RM {{ (auth()->user()->isAgentKAP()) ? number_format($comm,2) : '0.00' }}</p>
+                                                                <p>RM {{Session::has('buying_for_customer_id')
+                                                                    ? '0.00'
+                                                                    : (auth()->user()->isAgentKAP() ? number_format($comm,2) : '0.00')}}</p>
                                                             </div>
                                                         </div>
 
+                                                        @if(!Session::has('buying_for_customer_id'))
                                                         @if(auth()->user()->isAgentKAP())
                                                         <div class="flex justify-between">
                                                             <div class="text-red-500 ">
@@ -228,6 +242,7 @@
                                                                 <p>RM {{ number_format($comm,2) }}</p>
                                                             </div>
                                                         </div>
+                                                        @endif
                                                         @endif
 
                                                         @if ($apply_code)
@@ -248,7 +263,10 @@
                                                         </div>
                                                         <div class="text-lg font-semibold">
                                                             @if (auth()->user()->client == 2)
-                                                                <p>RM {{ (auth()->user()->isAgentKAP()) ? number_format(($total-$comm)+1,2) : number_format($total+1,2) }}</p>
+                                                                <p>RM {{Session::has('buying_for_customer_id')
+                                                                    ? number_format($total+1,2)
+                                                                    : (auth()->user()->isAgentKAP() ? number_format(($total-$comm)+1,2) : number_format($total+1,2))}}</p>
+                                                                {{-- <p>RM {{ (auth()->user()->isAgentKAP()) ? number_format(($total-$comm)+1,2) : number_format($total+1,2) }}</p> --}}
                                                             @else
                                                                 <p>RM {{number_format(($total+$postage)+1,2)}}</p>
                                                             @endif

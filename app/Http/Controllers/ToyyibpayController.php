@@ -93,6 +93,7 @@ class ToyyibpayController extends Controller
                     'bought_price'      => $golds->bought_price,
                     'active_ownership'  => 1,
                     'spot_gold'         => $golds->spot_gold,
+                    'financing_flag'    => $golds->financing_flag,
                     'referenceNumber'   => $response['billcode'],
                     'created_by'        => $golds->user_id,
                     'updated_by'        => $golds->user_id,
@@ -196,7 +197,7 @@ class ToyyibpayController extends Controller
                 $golds->save();
             }
 
-            $exit_id = $gold->first->exit_id;
+            $exit_id = $gold->first()->exit_id;
 
             $goldMinting = GoldMinting::where('id', $exit_id)->where('status', 3)->first();
             $goldMinting->status = 0;

@@ -26,7 +26,7 @@ class Home extends Component
     public $pendingApproval, $myAgent, $withdrawalRequest, $todayTrans, $cashback;
     public $activeUser, $myWallet;
     public $userGold;
-    public $tGold, $pGold, $goldInfo;
+    public $tGold, $pGold, $goldInfo, $lGold;
     public $chart1, $mainchart1, $chart2, $mainchart2, $chart3, $mainchart3;
     public $subchart1day, $subchart1month, $subchart2day, $subchart2month, $subchart3day, $subchart3month, $subchart4day, $subchart4month;
     public $announcement;
@@ -173,12 +173,19 @@ class Home extends Component
             $chartData = array_map('intval', $dataArray);
             $this->mainchart1 = $chartData;
 
-            $goldInfo = GoldbarOwnership::where('user_id', auth()->user()->id)->where('active_ownership', 1)->get();
+            $goldInfo = GoldbarOwnership::where('user_id', auth()->user()->id)
+                ->where('active_ownership', 1)
+                ->get();
             $this->tGold = 0;
+            $this->lGold = 0;
             $this->pGold = 0;
 
-            foreach ($goldInfo as $golds) {
-                $this->tGold += $golds->available_weight;
+            foreach ($goldInfo as $gold) {
+                if ($gold->financing_flag == 0) {
+                    $this->tGold += $gold->available_weight;
+                } elseif ($gold->financing_flag == 1) {
+                    $this->lGold += $gold->available_weight;
+                }
             }
 
             $phyExit = PhysicalConvert::where('user_id', auth()->user()->id)->where('status', 1)->get();

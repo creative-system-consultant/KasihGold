@@ -3,13 +3,14 @@
 namespace App\Http\Livewire\Page\Shop;
 
 use App\Models\InvCart;
+use App\Models\InvCartKoop;
 use App\Models\InvInfo;
-use App\Models\InvMaster;
 use App\Models\MarketPrice;
 use App\Models\SpotGoldPricing;
 use App\Models\User;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 use Livewire\Component;
 
@@ -30,6 +31,12 @@ class ProductDetail extends Component
         }
     }
 
+    public function clearBuyingForCustomer()
+    {
+        Session::forget(['buying_for_customer_id', 'buying_for_customer_name']);
+        $this->emit('buyingForCustomerCleared');
+    }
+
     public function addQty()
     {
         if ($this->prod_qty < 99) {
@@ -46,50 +53,24 @@ class ProductDetail extends Component
 
     public function addCart()
     {
-        InvCart::updateOrCreate(
-            [
-                'user_id'       => auth()->user()->id,
-                'item_id'       => $this->iid,
-            ],
-            [
-                'user_id'       => auth()->user()->id,
-                'item_id'       => $this->iid,
-                'prod_qty'      => $this->prod_qty,
-                'created_by'    => auth()->user()->id,
-                'updated_by'    => auth()->user()->id,
-                'created_at'    => now(),
-                'updated_at'    => now(),
-            ]
-        );
-
-        session()->flash('success');
-        session()->flash('title', 'Success!');
-        session()->flash('message', 'Your cart has been updated.');
-
-        return redirect('product/detail?iid=' . $this->iid);
-    }
-
-    public function buyNow()
-    {
-        if ($this->spotGold == 1) {
-
-            InvCart::updateOrCreate(
+        if (Session::has('buying_for_customer_id')) {
+            $customerId = Session::get('buying_for_customer_id');
+            InvCartKoop::updateOrCreate(
                 [
-                    'user_id'       => auth()->user()->id,
+                    'user_id' => $customerId,
                     'item_id'       => $this->iid,
                 ],
                 [
-                    'user_id'       => auth()->user()->id,
+                    'user_id' => $customerId,
                     'item_id'       => $this->iid,
                     'prod_qty'      => $this->prod_qty,
-                    'prod_gram'     => $this->spotGram,
+                    'prod_gram'     => ($this->spotGold == 1) ? $this->spotGram : NULL,
                     'created_by'    => auth()->user()->id,
                     'updated_by'    => auth()->user()->id,
                     'created_at'    => now(),
                     'updated_at'    => now(),
                 ]
             );
-            return redirect()->route('product-buy');
         } else {
             InvCart::updateOrCreate(
                 [
@@ -100,18 +81,27 @@ class ProductDetail extends Component
                     'user_id'       => auth()->user()->id,
                     'item_id'       => $this->iid,
                     'prod_qty'      => $this->prod_qty,
+                    'prod_gram'     => ($this->spotGold == 1) ? $this->spotGram : NULL,
                     'created_by'    => auth()->user()->id,
                     'updated_by'    => auth()->user()->id,
                     'created_at'    => now(),
                     'updated_at'    => now(),
                 ]
             );
-
-            return redirect('cart');
         }
+
+        session()->flash('success');
+        session()->flash('title', 'Success!');
+        session()->flash('message', 'Your cart has been updated.');
+
+        return redirect('product/detail?iid=' . $this->iid);
     }
 
-
+    public function buyNow()
+    {
+        $this->addCart();
+        return redirect()->route('cart');
+    }
 
     public function render()
     {

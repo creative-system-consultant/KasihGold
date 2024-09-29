@@ -1,4 +1,10 @@
 <div>
+    @if (Session::has('buying_for_customer_id'))
+        <div class="p-4 mb-4 text-sm text-blue-700 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800" role="alert">
+            <span class="font-medium">You are buying products for customer: {{ Session::get('buying_for_customer_name') }}</span>
+            <button wire:click="clearBuyingForCustomer" class="ml-2 text-blue-700 underline hover:text-blue-800">Clear</button>
+        </div>
+    @endif
     <div x-data="{ cartOpen: false , isOpen: false }" class="my-10 bg-white rounded-lg">
         <header>
             <div class="px-6 py-3">

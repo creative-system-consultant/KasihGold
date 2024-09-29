@@ -9,13 +9,16 @@ use App\Models\GoldbarOwnership;
 use App\Models\GoldbarOwnershipPending;
 use Illuminate\Support\Str;
 use App\Models\InvCart;
+use App\Models\InvCartKoop;
 use App\Models\InvMaster;
 use App\Models\NewOrders;
 use App\Models\Promotion;
 use App\Models\SnapNPay;
 use App\Models\States;
 use App\Models\ToyyibBills;
+use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class ProductBuy extends Component
@@ -87,13 +90,15 @@ class ProductBuy extends Component
 
     public function buy()
     {
-        $products = InvCart::with('item.promotions')->where('user_id', auth()->user()->id)->get();
+        $products = Session::has('buying_for_customer_id')
+            ? InvCartKoop::with('item.promotions')->where('user_id', Session::get('buying_for_customer_id'))->get()
+            : InvCart::with('item.promotions')->where('user_id', auth()->user()->id)->get();
         $total = 1.0; //Total is RM1 because of FPX Payment
         $comm = 0.0;
         $currentDate = date('Y-m-d');
         $currentDate = date('Y-m-d', strtotime($currentDate));
 
-        foreach ($products as $prod) { // Count total price for the transaction
+        foreach ($products as $prod) {
             $comm += $prod->commission->agent_rate * $prod->prod_qty;
 
             if ($prod->products->item->promotions != NULL && ($currentDate >= $prod->products->item->promotions->start_date) && ($currentDate <= $prod->products->item->promotions->end_date)) {
@@ -113,13 +118,19 @@ class ProductBuy extends Component
             'billDescription' => 'Digital Gold Purchase',
             'billPriceSetting' => 1,
             'billPayorInfo' => 1,
-            'billAmount' => (auth()->user()->isAgentKAP()) ? (($total - $comm) * 100) : ($total * 100),
+            'billAmount' => Session::has('buying_for_customer_id')
+                ? ($total * 100)
+                : (auth()->user()->isAgentKAP() ? (($total - $comm) * 100) : ($total * 100)),
             'billReturnUrl' => route('toyyibpay-status-buy'),
             'billCallbackUrl' => route('toyyibpay-callback'),
             'billExternalReferenceNo' => $refPayment,
-            'billTo' => auth()->user()->name,
-            'billEmail' => auth()->user()->email,
-            'billPhone' => (auth()->user()->role == 3) ? auth()->user()->profile->phone1 : auth()->user()->phone_no,
+            'billTo' => Session::has('buying_for_customer_id') ? User::find(Session::get('buying_for_customer_id'))->name : auth()->user()->name,
+            'billEmail' => Session::has('buying_for_customer_id') ? User::find(Session::get('buying_for_customer_id'))->email : auth()->user()->email,
+            'billPhone' => Session::has('buying_for_customer_id')
+                ? (User::find(Session::get('buying_for_customer_id'))->role == 3
+                    ? User::find(Session::get('buying_for_customer_id'))->profile->phone1
+                    : User::find(Session::get('buying_for_customer_id'))->phone_no)
+                : (auth()->user()->role == 3 ? auth()->user()->profile->phone1 : auth()->user()->phone_no),
             'billSplitPayment' => 0,
             'billSplitPaymentArgs' => '',
             'billPaymentChannel' => '0',
@@ -154,7 +165,10 @@ class ProductBuy extends Component
         ToyyibBills::create([
             'ref_payment'       => $refPayment,
             'bill_code'         => $billCode,
-            'bill_amount'       => (auth()->user()->isAgentKAP()) ? (($total - $comm)) : ($total),
+            'bill_amount' => Session::has('buying_for_customer_id')
+                ? ($total)
+                : (auth()->user()->isAgentKAP() ? (($total - $comm)) : ($total)),
+            // 'bill_amount'       => (auth()->user()->isAgentKAP()) ? (($total - $comm)) : ($total),
             'status'            => 2,
             'created_by'        => auth()->user()->id,
             'updated_by'        => auth()->user()->id,
@@ -170,12 +184,23 @@ class ProductBuy extends Component
                 GoldbarOwnershipPending::create([
                     'referenceNumber'   => $billCode,
                     'gold_id'           => $goldbar->id,
-                    'user_id'           => auth()->user()->id,
+                    'user_id'           => Session::has('buying_for_customer_id') ? Session::get('buying_for_customer_id') : auth()->user()->id,
                     'item_id'           => $prod->item_id,
                     'weight'            => ($prod->products->prod_cat == 3 ? $prod->prod_gram : $prod->products->prod_weight),
-                    'bought_price'      => (auth()->user()->isAgentKAP()) ? ($prod->products->prod_cat != 3 ? ($prod->products->item->marketPrice->price - $prod->commission->agent_rate) : ((($prod->products->item->marketPrice->price + round(($prod->products->item->marketPrice->price * $prod->percentage()), 2)) - $prod->commission->agent_rate) * $prod->prod_gram)) : (($prod->products->prod_cat != 3 ? ($prod->products->item->marketPrice->price) : (($prod->products->item->marketPrice->price + round(($prod->products->item->marketPrice->price * $prod->percentage()), 2)) * $prod->prod_gram))),
+                    'bought_price' => Session::has('buying_for_customer_id')
+                        ? ($prod->products->prod_cat != 3
+                            ? $prod->products->item->marketPrice->price
+                            : ($prod->products->item->marketPrice->price + round(($prod->products->item->marketPrice->price * $prod->percentage()), 2)) * $prod->prod_gram)
+                        : (auth()->user()->isAgentKAP()
+                            ? ($prod->products->prod_cat != 3
+                                ? ($prod->products->item->marketPrice->price - $prod->commission->agent_rate)
+                                : ((($prod->products->item->marketPrice->price + round(($prod->products->item->marketPrice->price * $prod->percentage()), 2)) - $prod->commission->agent_rate) * $prod->prod_gram))
+                            : ($prod->products->prod_cat != 3
+                                ? $prod->products->item->marketPrice->price
+                                : (($prod->products->item->marketPrice->price + round(($prod->products->item->marketPrice->price * $prod->percentage()), 2)) * $prod->prod_gram))),
                     'status'            => 2,
                     'spot_gold'         => ($prod->products->prod_cat == 3 ? 1 : 0),
+                    'financing_flag'    => Session::has('buying_for_customer_id') ? 1 : 0,
                     'created_by'        => auth()->user()->id,
                     'updated_by'        => auth()->user()->id,
                     'created_at'        => now(),
@@ -193,14 +218,17 @@ class ProductBuy extends Component
             $prod->delete();
         }
 
+        // Clear the session after successful purchase
+        Session::forget(['buying_for_customer_id', 'buying_for_customer_name']);
+
         return redirect('https://dev.toyyibpay.com/' . $billCode);
     }
 
     public function buySnapNpay()
     {
-        // dd('snapNpay');
-
-        $products = InvCart::with('item.promotions')->where('user_id', auth()->user()->id)->get();
+        $products = Session::has('buying_for_customer_id')
+            ? InvCartKoop::with('item.promotions')->where('user_id', Session::get('buying_for_customer_id'))->get()
+            : InvCart::with('item.promotions')->where('user_id', auth()->user()->id)->get();
         $total = 1.0; //Total is RM1 because of FPX Payment
         $comm = 0.0;
         $currentDate = date('Y-m-d');
@@ -242,7 +270,10 @@ class ProductBuy extends Component
 
         SnapNPay::create([
             'ref_no'            => $refPayment,
-            'amount'            => (auth()->user()->isAgentKAP()) ? (($total - $comm)) : ($total),
+            'amount' => Session::has('buying_for_customer_id')
+                ? ($total)
+                : (auth()->user()->isAgentKAP() ? (($total - $comm)) : ($total)),
+            // 'amount'            => (auth()->user()->isAgentKAP()) ? (($total - $comm)) : ($total),
             'status'            => 2,
             'created_by'        => auth()->user()->id,
             'updated_by'        => auth()->user()->id,
@@ -258,13 +289,24 @@ class ProductBuy extends Component
                 GoldbarOwnershipPending::create([
                     'referenceNumber'   => $refPayment,
                     'gold_id'           => $goldbar->id,
-                    'user_id'           => auth()->user()->id,
+                    'user_id'           => Session::has('buying_for_customer_id') ? Session::get('buying_for_customer_id') : auth()->user()->id,
                     'item_id'           => $prod->item_id,
                     'weight'            => ($prod->products->prod_cat == 3 ? $prod->prod_gram : $prod->products->prod_weight),
-                    'bought_price'      => (auth()->user()->isAgentKAP()) ? ($prod->products->prod_cat != 3 ? ($prod->products->item->marketPrice->price - $prod->commission->agent_rate) : ((($prod->products->item->marketPrice->price + round(($prod->products->item->marketPrice->price * $prod->percentage()), 2)) - $prod->commission->agent_rate) * $prod->prod_gram)) : (($prod->products->prod_cat != 3 ? ($prod->products->item->marketPrice->price) : (($prod->products->item->marketPrice->price + round(($prod->products->item->marketPrice->price * $prod->percentage()), 2)) * $prod->prod_gram))),
+                    'bought_price' => Session::has('buying_for_customer_id')
+                        ? ($prod->products->prod_cat != 3
+                            ? $prod->products->item->marketPrice->price
+                            : ($prod->products->item->marketPrice->price + round(($prod->products->item->marketPrice->price * $prod->percentage()), 2)) * $prod->prod_gram)
+                        : (auth()->user()->isAgentKAP()
+                            ? ($prod->products->prod_cat != 3
+                                ? ($prod->products->item->marketPrice->price - $prod->commission->agent_rate)
+                                : ((($prod->products->item->marketPrice->price + round(($prod->products->item->marketPrice->price * $prod->percentage()), 2)) - $prod->commission->agent_rate) * $prod->prod_gram))
+                            : ($prod->products->prod_cat != 3
+                                ? $prod->products->item->marketPrice->price
+                                : (($prod->products->item->marketPrice->price + round(($prod->products->item->marketPrice->price * $prod->percentage()), 2)) * $prod->prod_gram))),
                     'status'            => 2,
                     'spot_gold'         => ($prod->products->prod_cat == 3 ? 1 : 0),
                     'snapNPayFlag'      => 2, // 2 for pending, 0 processed, 1 success , 3 failed
+                    'financing_flag'    => Session::has('buying_for_customer_id') ? 1 : 0,
                     'created_by'        => auth()->user()->id,
                     'updated_by'        => auth()->user()->id,
                     'created_at'        => now(),
@@ -281,16 +323,25 @@ class ProductBuy extends Component
             }
             $prod->delete();
         }
-        session()->flash('agency', 'KASIHGOLD');
+        session()->flash('agency', 'SR-00774');
         session()->flash('refNo', $refPayment);
-        session()->flash('amount', (auth()->user()->isAgentKAP()) ? (($total - $comm)) : ($total));
-        session()->flash('email', auth()->user()->email);
+        // session()->flash('amount', (auth()->user()->isAgentKAP()) ? (($total - $comm)) : ($total));
+        session()->flash('amount', Session::has('buying_for_customer_id')
+            ? ($total)
+            : (auth()->user()->isAgentKAP() ? (($total - $comm)) : ($total)));
+        session()->flash('email', Session::has('buying_for_customer_id') ? User::find(Session::get('buying_for_customer_id'))->email : auth()->user()->email);
+
+        // Clear the session after successful purchase
+        Session::forget(['buying_for_customer_id', 'buying_for_customer_name']);
+
         return redirect('snapBuy');
     }
 
     public function render()
     {
-        $products = InvCart::where('exit_type', NULL)->with('item.promotions')->where('user_id', auth()->user()->id)->get();
+        $products = Session::has('buying_for_customer_id')
+            ? InvCartKoop::where('exit_type', NULL)->with('item.promotions')->where('user_id', Session::get('buying_for_customer_id'))->get()
+            : InvCart::where('exit_type', NULL)->with('item.promotions')->where('user_id', auth()->user()->id)->get();
         $tProducts = 0;
         foreach ($products as $prod) {
             $tProducts += $prod->prod_qty;

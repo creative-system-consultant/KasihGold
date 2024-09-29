@@ -74,6 +74,7 @@ use App\Http\Livewire\Page\Reporting\GoldReport;
 use App\Http\Livewire\Page\Reporting\UserReport;
 
 use App\Http\Livewire\Page\Lelongan\Lelongan;
+use App\Http\Livewire\Page\PurchaseHistory\PurchaseHistory;
 
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
@@ -146,6 +147,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('pay', [SnapAPI::class, 'index'])->name('pay');
         Route::get('snapBuy', [SnapAPI::class, 'snapBuy'])->name('snapBuy');
+        Route::post('pay2', [SnapAPI::class, 'callback'])->name('pay2');
 
         Route::get('cart', [CartController::class, 'index'])->name('cart');
         Route::post('cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
@@ -169,7 +171,7 @@ Route::middleware('auth')->group(function () {
         Route::get('physical-gold-confirmation', [physicalGoldController::class, 'confirm'])->name('physical-gold-confirmation');
         Route::get('outright-gold-cart', [physicalGoldController::class, 'ocart'])->name('outright-gold-cart');
         Route::get('bb-gold-cart', [physicalGoldController::class, 'bbcart'])->name('bb-gold-cart');
-        Route::get('Purchase-history', [PurchaseHistoryController::class, 'index'])->name('purchase-history');
+        Route::get('purchase-history/{userId}', PurchaseHistory::class)->name('purchase-history');
 
         Route::get('gold-minting', GoldMinting::class)->name('goldMinting');
         Route::get('gm-checkout', GoldMintingCheckout::class)->name('mintingCheckout');

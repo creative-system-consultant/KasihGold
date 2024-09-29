@@ -26,7 +26,7 @@ class SnapAPI extends Controller
         $response = request()->all(['status', 'orderNo', 'refNo', 'amount', 'fpxTxnId', 'extraData']);
         Log::info($response);
 
-        $toyyibBill = SnapNPay::where('refNo', $response['refNo'])->first();
+        $toyyibBill = SnapNPay::where('ref_no', $response['refNo'])->first();
 
         if ($response['status'] == 'success' && $toyyibBill->status == 0) {
 
@@ -55,6 +55,7 @@ class SnapAPI extends Controller
                     'spot_gold'         => $golds->spot_gold,
                     'referenceNumber'   => $response['refNo'],
                     'snapNPayFlag'      => 1,
+                    'financing_flag'    => $golds->financing_flag,
                     'created_by'        => $golds->user_id,
                     'updated_by'        => $golds->user_id,
                     'created_at'        => now(),
@@ -111,7 +112,7 @@ class SnapAPI extends Controller
 
             foreach ($gold as $golds) {
                 //Nullifies the gold pending because of failed payment
-                $golds->update(['status' => 3, 'snapNPayFlag' => 3]);
+                $golds->update(['status' => 3, 'SnapNPayFlag' => 3]);
 
                 //Remove weight on hold and replaces it with weight occupied
                 $currentGoldbar = Goldbar::where('id', $golds->gold_id)->first();
