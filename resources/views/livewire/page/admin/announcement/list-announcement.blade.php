@@ -79,6 +79,11 @@
                                                                 {{ $item->created_at->format('d F Y') }}
                                                             </p>
                                                         </div>
+                                                        @if($item->announcement_img)
+                                                            <div class="mb-4">
+                                                                <img src="{{ asset( $item->announcement_img) }}" alt="{{ $item->title }}" class="max-w-full h-auto rounded-lg shadow-md">
+                                                            </div>
+                                                        @endif
                                                         <p class="text-base text-gray-600 whitespace-pre-line ">
                                                             {{ $item->description }}
                                                         </p>

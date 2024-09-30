@@ -27,6 +27,7 @@
                     <x-slot name="icon">
                         <x-heroicon-s-information-circle class="w-8 h-8 mr-1" />
                     </x-slot>
+                    
                     <div class="p-6">
                         <div class="pb-2 text-base font-semibold">
                             <p class="flex items-center text-blue-500">
@@ -34,6 +35,11 @@
                                 {{ $item->created_at->format('d F Y') }}
                             </p>
                         </div>
+                        @if($item->announcement_img)
+                            <div class="mb-4">
+                                <img src="{{ asset( $item->announcement_img) }}" alt="{{ $item->title }}" class="max-w-full h-auto rounded-lg shadow-md">
+                            </div>
+                        @endif
                         <p class="text-base text-gray-600">{{ $item->description }}</p>
                     </div>
                 </x-general.modal2>

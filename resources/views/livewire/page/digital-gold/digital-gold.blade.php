@@ -35,7 +35,10 @@
                                             </div>
                                             <div class="pt-2 text-base text-center lg:text-left lg:pt-0">
                                                 <p>Digital Gold Wafer (Fixed)</p>
-                                                <p class="text-lg">{{$this->tGoldN}} g</p>
+                                                <p class="text-lg">{{$this->tGoldN}} g (Available)</p>
+                                                @if($this->tGoldNL > 0)
+                                                <p class="text-lg">{{$this->tGoldNL}} g (Locked)</p>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -48,7 +51,10 @@
                                             </div>
                                             <div class="pt-2 text-base text-center lg:text-left lg:pt-0">
                                                 <p>Digital Gold Dinar</p>
-                                                <p class="text-lg">{{$this->tGoldD}} g</p>
+                                                <p class="text-lg">{{$this->tGoldD}} g (Available)</p>
+                                                @if($this->tGoldDL > 0)
+                                                <p class="text-lg">{{$this->tGoldDL}} g (Locked)</p>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -61,7 +67,10 @@
                                             </div>
                                             <div class="pt-2 text-base text-center lg:text-left lg:pt-0">
                                                 <p>Digital Gold Wafer (Flexible)</p>
-                                                <p class="text-lg">{{$this->tGoldS}} g</p>
+                                                <p class="text-lg">{{$this->tGoldS}} g (Available)</p>
+                                                @if($this->tGoldSL > 0)
+                                                <p class="text-lg">{{$this->tGoldSL}} g (Locked)</p>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

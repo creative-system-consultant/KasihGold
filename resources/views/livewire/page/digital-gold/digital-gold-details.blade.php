@@ -41,8 +41,8 @@
                                     <x-heroicon-o-clipboard-list class="w-8 h-8 text-yellow-400" />
                                 </div>
                                 <div class="text-lg">
-                                    <p>Total Number of Digital Gold Ownership</p>
-                                    <p class="text-base">{{$totalCnt}}</p>
+                                    <p>Digital Gold Ownership</p>
+                                    <p class="text-base">Paid: {{$paidCount}} | Locked: {{$lockedCount}}</p>
                                 </div>
                             </div>
                         </div>
@@ -56,12 +56,14 @@
                     <x-table.table-header class="text-left" value="Weight" sort="" />
                     <x-table.table-header class="text-left" value="Bought Price" sort="" />
                     <x-table.table-header class="text-left" value="Purchased Date" sort="" />
+                    <x-table.table-header class="text-left" value="Status" sort="" />
+                    <x-table.table-header class="text-left" value="Ownership" sort="" />
                 </x-slot>
                 <x-slot name="tbody">
-                @forelse ($details as $item)   
+                @forelse ($details as $index => $item)   
                     <tr>
                         <x-table.table-body colspan="" class="text-xs font-medium text-gray-700 ">
-                            <p>{{$loop->iteration}}</p>
+                            <p>{{ $details->firstItem() + $index }}</p>
                         </x-table.table-body>
                         <x-table.table-body colspan="" class="text-xs font-medium text-gray-700 ">
                             <p>{{$item->products->prod_name}}</p>
@@ -78,10 +80,16 @@
                         <x-table.table-body colspan="" class="text-xs font-medium text-gray-700 ">
                             <p>{{ $item->created_at->format('d F Y') }}</p>
                         </x-table.table-body>
+                        <x-table.table-body colspan="" class="text-xs font-medium text-gray-700 ">
+                            <p>{{ $item->financing_flag==0 ? 'Paid' : 'Locked' }}</p>
+                        </x-table.table-body>
+                        <x-table.table-body colspan="" class="text-xs font-medium text-gray-700 ">
+                            <p>{{ $item->active_ownership ? 'Active' : 'Inactive' }}</p>
+                        </x-table.table-body>
                     </tr>
                 @empty 
                     <tr>
-                        <x-table.table-body colspan="4" class="text-center text-gray-500">
+                        <x-table.table-body colspan="8" class="text-center text-gray-500">
                             No Digital Gold as of yet.
                         </x-table.table-body>
                     </tr>
