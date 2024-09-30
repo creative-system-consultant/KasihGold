@@ -7,7 +7,7 @@
             </x-slot>
         </x-dashboard.info-card-user>
         <x-dashboard.info-card-user bg="teal-400" title="Locked Digital Gold" value="{{$this->lGold}} G" iconColor='white'
-            cardRoute="{{route('physical-gold')}}">
+            cardRoute="{{route('digital-gold-details')}}">
             <x-slot name="svg">
                 <x-heroicon-o-user class="w-8 h-8 text-teal-400" />
             </x-slot>
