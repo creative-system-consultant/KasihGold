@@ -122,10 +122,14 @@ class Profile extends Component
             'nom_dob'           => 'required',
             'nom_mem_rel'       => 'required',
             'nom_perc'          => 'required',
-            'doc_nom'           => 'required|file|max:2048',
-            'doc_ic'            => 'required|file|max:2048',
-            'doc_nom_ic.*'      => 'required|file|max:2048',
-        ]);
+            'doc_nom'           => 'required',
+            'doc_ic'            => 'required',
+            'doc_nom_ic.*'      => 'required',
+        ],[],[
+			'doc_nom' => 'Nominal Document',
+			'doc_ic' => 'Owner ID',
+			'doc_nom_ic' => 'Nominal ID',
+		]);
     }
 
     public function clearIcFront() {
@@ -351,10 +355,14 @@ class Profile extends Component
     public function nomineeUpload()
     {
         $this->validate([
-            'doc_nom'       => 'required|file|max:5048',
-            'doc_ic'        => 'required|file|max:5048',
-            'doc_nom_ic.*'  => 'required|file|max:5048',
-        ]);
+            'doc_nom'       => 'required',
+            'doc_ic'        => 'required',
+            'doc_nom_ic.*'  => 'required',
+        ],[],[
+			'doc_nom' => 'Nominal Document',
+			'doc_ic' => 'Owner ID',
+			'doc_nom_ic' => 'Nominal ID',
+		]);
 
         $this->doc_nom->storeAs('public/nominee/' . auth()->user()->id, 'nominee-form.pdf');
         $this->doc_ic->storeAs('public/nominee/' . auth()->user()->id, 'owner-ic.pdf');
@@ -366,8 +374,6 @@ class Profile extends Component
         session()->flash('success');
         session()->flash('title', 'Success!');
         session()->flash('message', 'Nominee details successfully uploaded.');
-
-        return redirect()->route('profile');
     }
 
     public function resetNominee()
@@ -382,6 +388,11 @@ class Profile extends Component
         session()->flash('title', 'Information!');
         session()->flash('message', 'Nominee has been reset.');
     }
+	
+	public function nomineeSubmit()
+	{
+		//
+	}
 
     private function getDocDirectoryList()
     {

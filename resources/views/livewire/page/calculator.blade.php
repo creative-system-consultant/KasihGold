@@ -102,14 +102,17 @@
                                 </thead>
 
                                 <tbody class="divide-y divide-yellow-50">
-                                    @foreach ($financing as $row)
-                                        <tr>
-                                            <td class="p-4 font-semibold">{{ $row['name'] }}</td>
-                                            <td class="p-4 font-mono text-right">{{ $row['max_financing'] }}</td>
-                                            <td class="p-4 font-mono text-right">{{ $row['one_month'] }}</td>
-                                            <td class="p-4 font-mono text-right">{{ $row['full_month'] }}</td>
-                                        </tr>
-                                    @endforeach
+                                    @isset($financing)
+                                        @foreach ($financing as $row)
+                                            <tr>
+                                                <td class="p-4 font-semibold">{{ $row['name'] }}</td>
+                                                <td class="p-4 font-mono text-right">{{ $row['max_financing'] }}</td>
+                                                <td class="p-4 font-mono text-right">{{ $row['one_month'] }}</td>
+                                                <td class="p-4 font-mono text-right">{{ $row['full_month'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endisset
+
                                 </tbody>
                             </table>
                         </div>

@@ -28,7 +28,7 @@ class ArrahnuPawnMaster extends Model
 
     public function product()
     {
-        return  $this->belongsTo(Ref_ProductCode::class, 'PROD_CODE', 'PROD_CODE');
+        return  $this->belongsTo(ArrahnuRefProductCode::class, 'PROD_CODE', 'PROD_CODE');
     }
 
     public function branch()
@@ -260,5 +260,14 @@ class ArrahnuPawnMaster extends Model
     public function isBske()
     {
         return ($this->marhun->first()->CERT_NO and $this->marhun->first()->CERT_NO != '') ? true : false;
+    }
+
+    public function productKAP($prod_code)
+    {
+        return self::where('PRODUCT_CODE', $prod_code)
+                    ->whereHas('product', function($query) {
+                        $query->where('PROD_TYPE', 'KAP');
+                    })
+                    ->exists();
     }
 }

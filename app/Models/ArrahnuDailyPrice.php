@@ -16,7 +16,7 @@ class ArrahnuDailyPrice extends Model
 
     public function details()
     {
-        return $this->belongsTo(ArrahnuRefGoldType::class, 'GOLD_CODE', 'GOLD_CODE');
+        return $this->belongsTo(ArrahnuRefGoldType::class, 'GOLD_CODE', 'GOLD_CODE')->where('CLIENT_ID', config('app.client_id'));
     }
 
     /**
@@ -27,12 +27,20 @@ class ArrahnuDailyPrice extends Model
     public static function fetchTodayGoldPriceDetails()
     {
         $prices = static::where('EFF_DATE', date('Y-m-d'))
-                        ->where('GOLD_CODE', 17)  // filter 24k karat
+                        ->where('GOLD_CODE', 1)  // filter 24k karat
+                        ->where('CLIENT_ID', config('app.client_id'))
                         ->get();
+        // $prices = static::with(['details' => function($query){
+        //     $query->where('GOLD_CODE', 1);
+        // }])
+        // ->where('EFF_DATE', date('Y-m-d'))
+        // ->where('GOLD_CODE', 1)  // filter 24k karat
+        // ->where('CLIENT_ID', config('app.client_id'))
+        // ->get();
         $value = [];
 
         foreach ($prices as $row) {
-            $value[$row->GOLD_CODE] = [
+            $value[trim($row->GOLD_CODE)] = [
                 'type' => $row->details->GOLD_TYPE,
                 'carat' => $row->details->GOLD_KARAT,
                 'price' => $row->PRICE,

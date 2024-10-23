@@ -57,7 +57,8 @@ class BidService
                     'REZAB_PRICE' => $amtRezab,
                     'FILES' => $filename,
                     'BID_AT' => now(),
-                    'BRANCH_CODE' => substr($siri, 4, 1)
+                    'BRANCH_CODE' => substr($siri, 4, 1),
+                    'CLIENT_ID' => config('app.client_id'),
                 ]);
 
                 $storedLelongans[] = $lelongan;

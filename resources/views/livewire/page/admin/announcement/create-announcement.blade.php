@@ -12,20 +12,20 @@
         <div class="col-span-12 lg:col-span-8">
             <div class="mt-1 overflow-hidden bg-white shadow-lg post intro-y">
                 <form wire:submit.prevent="create">
-                    <div class="px-6 py-2 border border-gray-200 rounded-md">
+                    <div class="p-6 border border-gray-200 rounded-md">
                         <div class="mt-5">
                             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-                            <input wire:model.lazy="title" type="text" name="title" id="title" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Title">
+                            <input wire:model.lazy="title" type="text" name="title" id="title" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Title">
                             @error('title') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                         <div class="mt-5">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea wire:model.lazy="description" name="description" id="description" rows="8" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Details"></textarea>
+                            <textarea wire:model.lazy="description" name="description" id="description" rows="8" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Details"></textarea>
                             @error('description') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                         <div class="mt-5">
                             <label for="announcement_img" class="block text-sm font-medium text-gray-700">Announcement Image</label>
-                            <input wire:model="announcement_img" type="file" name="announcement_img" id="announcement_img" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input wire:model="announcement_img" type="file" name="announcement_img" id="announcement_img" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             @error('announcement_img') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                             @if ($announcement_img)
                                 <img src="{{ $announcement_img->temporaryUrl() }}" class="mt-2 rounded-lg max-h-48">

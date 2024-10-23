@@ -76,10 +76,10 @@
                                             <p>{{ $loop->iteration  }}</p>
                                         </x-table.table-body>
                                         <x-table.table-body colspan="" class="text-xs font-medium text-gray-700 ">
-                                            <p>{{$outlist->user->name}}</p>
+                                            <p>{{$outlist->hasFinancingFlag() ? $outlist->userDefault->name : $outlist->user->name}}</p>
                                         </x-table.table-body>
                                         <x-table.table-body colspan="" class="text-xs font-medium text-gray-700 ">
-                                            <p>{{$outlist->user->email}}</p>
+                                            <p>{{$outlist->hasFinancingFlag() ? $outlist->userDefault->email : $outlist->user->email}}</p>
                                         </x-table.table-body>
                                         <x-table.table-body colspan="" class="text-xs font-medium text-gray-700 ">
                                             <p>RM {{number_format($outlist->surrendered_amount,2)}}</p>
@@ -108,19 +108,19 @@
                                                                     <h2 class="text-lg font-bold">Customer Bank Information</h2>
                                                                     <div class="mt-5">
                                                                         <div class="flex mt-1 mb-2 rounded-md shadow-sm">
-                                                                            <input disabled type="text" value="{{$outlist->user->bank->acc_holder_name}}"
+                                                                            <input disabled type="text" value="{{ $outlist->hasFinancingFlag() ? $outlist->userDefault->bank->acc_holder_name : $outlist->user->bank->acc_holder_name ?? 'N/A' }}"
                                                                                 class="block w-full text-gray-400 transition duration-150 ease-in-out form-input sm:text-sm sm:leading-5">
                                                                         </div>
                                                                     </div>
                                                                     <div class="mt-5">
                                                                         <div class="flex mt-1 mb-2 rounded-md shadow-sm">
-                                                                            <input disabled type="text" value="{{$outlist->user->bank->swift_code}}"
+                                                                            <input disabled type="text" value="{{ $outlist->hasFinancingFlag() ? $outlist->userDefault->bank->swift_code : $outlist->user->bank->swift_code ?? 'N/A' }}"
                                                                                 class="block w-full text-gray-400 transition duration-150 ease-in-out form-input sm:text-sm sm:leading-5">
                                                                         </div>
                                                                     </div>
                                                                     <div class="mt-5">
                                                                         <div class="flex mt-1 mb-2 rounded-md shadow-sm">
-                                                                            <input disabled type="text" value="{{$outlist->user->bank->acc_no}}"
+                                                                            <input disabled type="text" value="{{ $outlist->hasFinancingFlag() ? $outlist->userDefault->bank->acc_no : $outlist->   user->bank->acc_no ?? 'N/A' }}"
                                                                                 class="block w-full text-gray-400 transition duration-150 ease-in-out form-input sm:text-sm sm:leading-5">
                                                                         </div>
                                                                     </div>
@@ -138,7 +138,7 @@
                                                                     <div class="flex mt-5">
                                                                         <label for="product-img1"
                                                                             class="w-full p-10 text-center {{ ($errors->has('proofdoc')) ? 'bg-red-400  hover:bg-red-500': 'bg-gray-200  hover:bg-gray-300' }} rounded-lg shadow cursor-pointer hover:bg-gray-300 group">
-                                                                            
+
                                                                                 <span
                                                                                     class="inline-flex items-center font-medium {{ ($errors->has('proofdoc')) ? 'text-red-400 ': 'text-gray-600' }} {{ ($errors->has('proofdoc')) ? 'group-hover:text-red-500': 'group-hover:text-gray-700' }}">
                                                                                     <x-heroicon-o-plus-circle class="w-10 h-10 mr-2 {{ ($errors->has('proofdoc')) ? 'text-red-600 ': 'text-yellow-400' }} " />
@@ -243,19 +243,19 @@
                                                                     <h2 class="text-lg font-bold">Customer Bank Information</h2>
                                                                     <div class="mt-5">
                                                                         <div class="flex mt-1 mb-2 rounded-md shadow-sm">
-                                                                            <input disabled type="text" value="{{$buyback->user->bank->acc_holder_name}}"
+                                                                            <input disabled type="text" value="{{ $buyback->user->bank->acc_holder_name ?? 'N/A' }}"
                                                                                 class="block w-full text-gray-400 transition duration-150 ease-in-out form-input sm:text-sm sm:leading-5">
                                                                         </div>
                                                                     </div>
                                                                     <div class="mt-5">
                                                                         <div class="flex mt-1 mb-2 rounded-md shadow-sm">
-                                                                            <input disabled type="text" value="{{$buyback->user->bank->swift_code}}"
+                                                                            <input disabled type="text" value="{{ $buyback->user->bank->swift_code ?? 'N/A' }}"
                                                                                 class="block w-full text-gray-400 transition duration-150 ease-in-out form-input sm:text-sm sm:leading-5">
                                                                         </div>
                                                                     </div>
                                                                     <div class="mt-5">
                                                                         <div class="flex mt-1 mb-2 rounded-md shadow-sm">
-                                                                            <input disabled type="text" value="{{$buyback->user->bank->acc_no}}"
+                                                                            <input disabled type="text" value="{{ $buyback->user->bank->acc_no ?? 'N/A' }}"
                                                                                 class="block w-full text-gray-400 transition duration-150 ease-in-out form-input sm:text-sm sm:leading-5">
                                                                         </div>
                                                                     </div>

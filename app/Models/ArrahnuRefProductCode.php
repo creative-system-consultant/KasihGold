@@ -30,7 +30,7 @@ class ArrahnuRefProductCode extends Model
      */
     public static function fetchActiveArrahnuProducts()
     {
-        $products = static::where('RECORD_STATUS', 'AKTIF')->where('PROD_TYPE', 'KAPG')->get();
+        $products = static::where('RECORD_STATUS', 'AKTIF')->where('PROD_TYPE', 'KAPG')->where('CLIENT_ID', config('app.client_id'))->get();
         $value = [];
 
         foreach ($products as $row) {

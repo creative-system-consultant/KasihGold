@@ -11,11 +11,11 @@
                                <div class="pb-8">
                                    <div class="lg:w-full">
                                        <div>
-                                           <h4 class="text-base text-gray-600 font-medium">Billing Details</h4>
+                                           <h4 class="text-base font-medium text-gray-600">Billing Details</h4>
                                            <div class="mt-4" x-data="{ accordion: 0 }">
-                                               
+
                                                <div class="overflow-hidden bg-white">
-                                                   <div class="border-2 px-4 py-4">
+                                                   <div class="px-4 py-4 border-2">
                                                        <x-form.basic-form>
                                                            <x-slot name="content">
                                                                <div class="grid gap-1 lg:grid-cols-1 sm:grid-cols-1">
@@ -36,10 +36,10 @@
                                    </div>
                                </div>
 
-                           
+
 
                                <div class="flex items-center justify-end mt-2">
-                                   <button class="flex items-center px-3 py-2 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 focus:outline-none">
+                                   <button class="flex items-center px-3 py-2 text-sm font-medium text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none">
                                        <x-heroicon-o-clipboard-check class="w-5 h-5 mr-2" />
                                        <span>COMPLETE ORDER</span>
                                    </button>
@@ -55,8 +55,8 @@
                                     <h3 class="font-medium text-gray-700">Minting Spot Gold </h3>
                                 </div>
 
-                                
-                                
+
+
                                     <div class="flex justify-between pb-4 mt-6 border-b-2">
                                         <div class="flex">
                                             <img class="object-cover w-20 h-20 rounded"
@@ -97,7 +97,7 @@
                                             <td class="pt-2 text-lg font-semibold text-right">{{$MintingCost + 10 + 1}}</td>
                                         </tr>
                                     </table>
-                                
+
                             </div>
                         </div>
                     </div>

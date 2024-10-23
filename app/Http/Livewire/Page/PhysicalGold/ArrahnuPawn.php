@@ -18,16 +18,17 @@ use Livewire\Component;
 class ArrahnuPawn extends Component
 {
     public $GoldMintGram, $GoldMint, $total, $totalD, $totalWallet, $MintingCost, $spotPrice;
-    public $GoldMintGramD, $goldprice, $gold_types, $financing, $total_marhun, $marhun, $prod_code, $hqBranch, $startDay, $flagStartDay, $flagKotak;
+    public $GoldMintGramD, $goldprice, $gold_types, $financing, $total_marhun, $marhun, $prod_code, $hqBranch, $startDay, $flagStartDay, $flagKotak, $client_id;
 
     public function mount()
     {
         $this->flagStartDay = 0;
         $this->flagKotak = 0;
         $today = now()->toDateString(); // Get today's date in the format 'Y-m-d'
-        $this->hqBranch = ArrahnuRefBranch::where('HQ_FLAG', 'Y')->first();
+        $this->client_id = config('app.client_id');
+        $this->hqBranch = ArrahnuRefBranch::where('HQ_FLAG', 'Y')->where('CLIENT_ID', $this->client_id)->first();
 
-        $this->startDay = ArrahnuRefStartEndDay::whereRaw("CAST(START_DATETIME AS DATE) = ?", [$today])->where('BRANCH_CODE', $this->hqBranch->BRANCH_CODE)
+        $this->startDay = ArrahnuRefStartEndDay::whereRaw("CAST(START_DATETIME AS DATE) = ?", [$today])->where('BRANCH_CODE', $this->hqBranch->BRANCH_CODE)->where('CLIENT_ID', $this->client_id)
             ->first();
 
 
@@ -55,7 +56,7 @@ class ArrahnuPawn extends Component
         $this->gold_types = ArrahnuDailyPrice::fetchTodayGoldPriceDetails();
 
         if ($this->gold_types) {
-            $this->goldprice = $this->gold_types['17   '];
+            $this->goldprice = $this->gold_types['1'];
         }
 
         $this->total = 0;
@@ -83,21 +84,22 @@ class ArrahnuPawn extends Component
         $existFlag = KoputraCif::where('created_by', $user_id)->first();
 
         if (!$existFlag) {
-            $sql = DB::connection('arrahnudb')->select("EXEC ARRAHNU.sp_ar_insert_cust_kap_to_cif '$user_id', 'W1'");
+            $sql = DB::connection('arrahnudb')->select("EXEC ARRAHNU.sp_ar_insert_cust_kap_to_cif '$this->client_id', '$user_id', 'SML'");
         }
     }
 
     public function getKotak()
     {
-        ArrahnuGoldBox::where('TOT_IN_USE', null)->update([
+        ArrahnuGoldBox::where('TOT_IN_USE', null)->where('CLIENT_ID', $this->client_id)->update([
             'TOT_IN_USE' => 0
         ]);
 
-        ArrahnuGoldBox::where('CURRENT_COLLECTION', null)->update([
+        ArrahnuGoldBox::where('CURRENT_COLLECTION', null)->where('CLIENT_ID', $this->client_id)->update([
             'CURRENT_COLLECTION' => 0
         ]);
 
-        return ArrahnuGoldBox::where('BRANCH_CODE', $this->hqBranch->BRANCH_CODE)
+        return ArrahnuGoldBox::where('CLIENT_ID', $this->client_id)
+            ->where('BRANCH_CODE', $this->hqBranch->BRANCH_CODE)
             ->where('BOX_TYPE', 'KAPG')
             ->where('RECORD_STATUS', 'AKTIF')
             ->where('ACTIVE_DAY', 'YA')
@@ -157,7 +159,7 @@ class ArrahnuPawn extends Component
 
     public function render()
     {
-        if (is_numeric($this->GoldMintGram)) {
+        if (is_numeric($this->GoldMintGram) && is_numeric($this->GoldMintGramD)) {
             if ($this->gold_types) {
                 $this->marhun = ($this->GoldMintGram + $this->GoldMintGramD) * $this->goldprice['price'];
             }

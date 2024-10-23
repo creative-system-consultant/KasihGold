@@ -10,7 +10,9 @@ use App\Models\ArrahnuPawnRecords;
 use App\Models\ArrahnuPayType;
 use App\Models\ArrahnuRefBranch;
 use App\Models\ArrahnuRefProductCode;
+use App\Models\ArrahnuRefStaff;
 use App\Models\ArrahnuStaffCash;
+use App\Models\ArrahnuSystemGlobalParameter;
 use App\Models\Banks;
 use Livewire\Component;
 use App\Models\GoldbarOwnership;
@@ -36,7 +38,7 @@ class ArrahnuPawnCheckout extends Component
 
 
     public $total_weight, $total_pawn, $financeAmt, $maximum_financing, $pay_type, $prod_code, $prod_name;
-    public $data, $tot_data, $goldprice, $branch, $chosenBranch;
+    public $data, $tot_data, $goldprice, $branch, $chosenBranch, $kap_product, $client_id;
     public $financeMargin, $financeDuration, $profitRules, $minFinancing, $maxFinancing;
 
     public function mount()
@@ -45,18 +47,19 @@ class ArrahnuPawnCheckout extends Component
         $this->total_weight = request()->session()->get('totalWeight');
         $this->total_pawn = request()->session()->get('total');
         $this->prod_code = request()->session()->get('prod_code');
+        $this->client_id = config('app.client_id');
         if ($this->data !== null) {
             $this->tot_data = count($this->data);
         } else {
             $this->tot_data = 0;
         }
 
-        $this->branch = ArrahnuRefBranch::where('ACTIVE_FLAG', 'Y')->get();
+        $this->branch = ArrahnuRefBranch::where(['ACTIVE_FLAG' => 'Y', 'CLIENT_ID' => $this->client_id])->get();
         if (!$this->data) {
             redirect('arrahnu-pawn');
         } else {
 
-            $productCode = ArrahnuRefProductCode::where('PROD_CODE', $this->prod_code)->first();
+            $productCode = ArrahnuRefProductCode::where(['PROD_CODE' => $this->prod_code, 'CLIENT_ID' => $this->client_id])->first();
 
             $this->prod_name = $productCode->PROD_DESC;
             $this->financeMargin = $productCode->MARGIN . '%';
@@ -70,40 +73,55 @@ class ArrahnuPawnCheckout extends Component
 
 
             $goldprice = ArrahnuDailyPrice::fetchTodayGoldPriceDetails();
-            $this->goldprice = $goldprice['17   '];
+            $this->goldprice = $goldprice['1'];
         }
     }
 
-    function pawnSiriNoGenerator($type = 'AKP')
+    function pawnSiriNoGenerator()
     {
-        $types = [
-            'AKP' => 'AKP'
-        ];
+        $header = ArrahnuSystemGlobalParameter::where('CLIENT_ID', $this->client_id)->first()->GADAIKAP_HEADER;
 
-        $branchCode = ($this->chosenBranch) ? $this->chosenBranch : 'W1';
-        $branch = ArrahnuRefBranch::where('BRANCH_CODE', $branchCode)->first();
+        $branchCode = ($this->chosenBranch) ? $this->chosenBranch : 'SML';
+        $branch = ArrahnuRefBranch::where(['BRANCH_CODE' => $branchCode, 'CLIENT_ID' => $this->client_id])->first();
         $branch_id = str_pad($branch->BRANCH_ID, 2, '0', STR_PAD_LEFT);
         $date = now()->format('dmy');
 
-        $running_no = ArrahnuPawnMaster::where('BRANCH_CODE', $branchCode)->whereRaw('CAST(PAWN_DATE AS DATE) = ?', [date('Y-m-d')])->where('PROD_CODE', $this->prod_code)->count() + 1;
+        // $running_no = ArrahnuPawnMaster::where('BRANCH_CODE', $branchCode)
+        //                                 ->whereRaw('CAST(PAWN_DATE AS DATE) = ?', [date('Y-m-d')])
+        //                                 ->where('PROD_CODE', $this->prod_code)
+        //                                 ->whereHas('product', function ($query) {
+        //                                     $query->where('PROD_TYPE', 'KAP');
+        //                                 })
+        //                                 ->count() + 1;
+
+        $running_no  = ArrahnuPawnMaster::with(['product' => function ($query) {
+                                                $query->where('PROD_TYPE', 'KAPG');
+                                            }])
+                                                ->where('BRANCH_CODE', $branchCode)
+                                                ->whereRaw('CAST(PAWN_DATE AS DATE) = ?', [date('Y-m-d')])
+                                                ->where('CLIENT_ID', $this->client_id)
+                                                ->whereHas('product', function ($query) {
+                                                    $query->where('PROD_TYPE', 'KAPG');
+                                                })
+                                                ->count() + 1;
 
         $running_no = str_pad($running_no, 4, '0', STR_PAD_LEFT);
-        $header = $types[$type] ?? $type[1];
 
         return $header . $branch_id . "-" . $date . "-" . $running_no;
     }
 
     public function getKotak()
     {
-        ArrahnuGoldBox::where('TOT_IN_USE', null)->update([
+        ArrahnuGoldBox::where(['TOT_IN_USE' => null, 'CLIENT_ID' => $this->client_id])->update([
             'TOT_IN_USE' => 0
         ]);
 
-        ArrahnuGoldBox::where('CURRENT_COLLECTION', null)->update([
+        ArrahnuGoldBox::where(['CURRENT_COLLECTION' => null, 'CLIENT_ID' => $this->client_id])->update([
             'CURRENT_COLLECTION' => 0
         ]);
 
-        return ArrahnuGoldBox::where('BRANCH_CODE', 'W1')
+        return ArrahnuGoldBox::where('CLIENT_ID', $this->client_id)
+            ->where('BRANCH_CODE', 'SML')
             ->where('BOX_TYPE', 'KAPG')
             ->where('RECORD_STATUS', 'AKTIF')
             ->where('ACTIVE_DAY', 'YA')
@@ -121,14 +139,14 @@ class ArrahnuPawnCheckout extends Component
     {
         $user_id = auth()->user()->profile->ic;
         $cif_id = auth()->user()->id;
-        $customer_info = KoputraCif::where('identity_no', $user_id)->first();
+        $customer_info = KoputraCif::where(['identity_no' => $user_id, 'client_id' => $this->client_id])->first();
 
         $customer_financing = $this->maximum_financing;
         $profit_percentage = MoneyToFloat(0.096);
         $product_duration = MoneyToFloat(18 / 12);
         $profit = MoneyRound($customer_financing * $profit_percentage * $product_duration);
         $mat_date = $this->getMaturityDate(now());
-        $siri_no = $this->pawnSiriNoGenerator('AKP');
+        $siri_no = $this->pawnSiriNoGenerator();
         $p_date = date('Y-m-d H:i:s', strtotime(now()));
 
         $kotak = $this->getKotak();
@@ -137,14 +155,14 @@ class ArrahnuPawnCheckout extends Component
 
         $gold_ownId = array();
 
-        $branchCode = ($this->chosenBranch) ? $this->chosenBranch : 'W1';
+        $branchCode = ($this->chosenBranch) ? $this->chosenBranch : 'SML';
 
 
         // // Add financing to teller collection
         // $staff_cash = ArrahnuStaffCash::where('BIZ_DATE', date('Y-m-d'))->where('STAFF_ID', 45990)->first();
         // $staff_cash->TRX_COLLECTION = $staff_cash->TRX_COLLECTION + MoneyToFloat($this->financeAmt);
         // $staff_cash->save();
-        $sql = DB::connection('arrahnudb')->select("EXEC ARRAHNU.sp_ar_update_cust_kap_branch '$cif_id', '$branchCode'");
+        $sql = DB::connection('arrahnudb')->select("EXEC ARRAHNU.sp_ar_update_cust_kap_branch '$this->client_id', '$customer_info->id', '$branchCode'");
         // Save pawn master
         ArrahnuPawnMaster::create([
             'CIF_NO' => $customer_info->id,
@@ -162,9 +180,9 @@ class ArrahnuPawnCheckout extends Component
             'PAY_TYPE' => $this->pay_type,
             'STATUS' => 'APPLY',
             'BOX_NO' => $kotak->BOX_NO,
-            'STAFF_ID' => $customer_info->id,
+            'STAFF_ID' => $this->getStaffId($branchCode),
             'BRANCH_CODE' => $branchCode,
-            'COOP_ID' => 2,
+            'CLIENT_ID' => $this->client_id,
         ]);
 
         // Save pawn detailed
@@ -174,13 +192,13 @@ class ArrahnuPawnCheckout extends Component
                 ArrahnuPawnDetails::create([
                     'SIRI_NO' => $siri_no,
                     'QTY' => 1,
-                    'MARHUN_CODE' => 13,
+                    'MARHUN_CODE' => 5,
                     'WEIGHT' => $row['grammage'],
-                    'KARAT' => MoneyRound("24.0"),
+                    'KARAT' => MoneyToFloat("24.0"),
                     'PRICE' => MoneyToFloat($row['tot_price']),
                     'REMARKS' => 'GADAIAN KAP',
                     'CERT_NO' => 1,
-                    'COOP_ID' => 2,
+                    'CLIENT_ID' => $this->client_id,
                 ]);
             }
 
@@ -257,12 +275,19 @@ class ArrahnuPawnCheckout extends Component
         return redirect('home');
     }
 
+    public function getStaffId($branchCode)
+    {
+        $staff_id = ArrahnuRefStaff::where('NAME', 'like', '%PENAFSIR SISTEM%')->where('BRANCH_CODE', $branchCode)->where('CLIENT_ID', $this->client_id)->first()->STAFF_ID;
+
+        return $staff_id;
+    }
+
     public function render()
     {
         $lists = $this->data;
 
         return view('livewire.page.physical-gold.arrahnu-pawn-checkout', [
-            'payment_type' => ArrahnuPayType::where('PAY_CODE', '<>', '3')->where('RECORD_STATUS', 'AKTIF')->get(), 'lists' => $lists
+            'payment_type' => ArrahnuPayType::where('PAY_CODE', '<>', '3')->where('RECORD_STATUS', 'AKTIF')->where('CLIENT_ID', $this->client_id)->get(), 'lists' => $lists
         ])->extends('default.default');
     }
 }

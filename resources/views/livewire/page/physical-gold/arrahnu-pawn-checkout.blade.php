@@ -1,23 +1,23 @@
 <div class="">
-    <div class="bg-white rounded-lg mb-20 sm:mb-0">
-        <main class="my-8 py-6 px-4">
+    <div class="mb-20 bg-white rounded-lg sm:mb-0">
+        <main class="px-4 py-6 my-8">
             <div class="container mx-auto">
-                <h3 class="text-gray-700 text-2xl font-medium">Financing Information</h3>
-                <div class="flex flex-col lg:flex-row mt-2">
-                    <div class="w-full lg:w-1/2 order-2">
+                <h3 class="text-2xl font-medium text-gray-700">Financing Information</h3>
+                <div class="flex flex-col mt-2 lg:flex-row">
+                    <div class="order-2 w-full lg:w-1/2">
                         <x-form.basic-form wire:submit.prevent="submit">
                             <x-slot name="content">
                                 <div class="pb-8">
                                     <div class="lg:w-full">
                                         <div>
                                             <div class="mt-4">
-                                                <div class="flex items-center justify-between w-full bg-white border  p-4 focus:outline-none">
+                                                <div class="flex items-center justify-between w-full p-4 bg-white border focus:outline-none">
                                                     <label class="flex items-center">
                                                             <span class="ml-2 text-base text-gray-700">Product Information</span>
                                                     </label>
                                                 </div>
                                                 <div class="overflow-hidden bg-white">
-                                                    <div class="border-2 px-4 py-4">
+                                                    <div class="px-4 py-4 border-2">
                                                         <x-form.basic-form>
                                                             <x-slot name="content">
                                                                 <div class="grid gap-2 lg:grid-cols-2 sm:grid-cols-1">
@@ -99,13 +99,13 @@
                                     <div class="lg:w-full">
                                         <div>
                                             <div class="mt-4">
-                                                <div class="flex items-center justify-between w-full bg-white border  p-4 focus:outline-none">
+                                                <div class="flex items-center justify-between w-full p-4 bg-white border focus:outline-none">
                                                     <label class="flex items-center">
                                                             <span class="ml-2 text-base text-gray-700">Summary</span>
                                                     </label>
                                                 </div>
                                                 <div class="overflow-hidden bg-white">
-                                                    <div class="border-2 px-4 py-4">
+                                                    <div class="px-4 py-4 border-2">
                                                         <x-form.basic-form>
                                                             <x-slot name="content">
                                                                 <div class="grid gap-2 lg:grid-cols-2 sm:grid-cols-1">
@@ -115,11 +115,11 @@
                                                                         </label>
                                                                         <div class="flex mt-1 mb-2 rounded-md shadow-sm">
                                                                             <input value="RM " wire:model="maximum_financing"
-                                                                                class="form-input bg-gray-200 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 "
+                                                                                class="block w-full transition duration-150 ease-in-out bg-gray-200 form-input sm:text-sm sm:leading-5 "
                                                                             disabled>
                                                                         </div>
                                                                     </div>
-                                                                    
+
                                                                 </div>
                                                                 <div class="grid gap-2 lg:grid-cols-2 sm:grid-cols-1">
                                                                     <div>
@@ -128,7 +128,7 @@
                                                                         </label>
                                                                         <div class="flex mt-1 mb-2 rounded-md shadow-sm">
                                                                             <input value="" wire:model="financeAmt"
-                                                                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 "
+                                                                                class="block w-full transition duration-150 ease-in-out form-input sm:text-sm sm:leading-5 "
                                                                             >
                                                                         </div>
                                                                     </div>
@@ -157,9 +157,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="flex items-center justify-end mt-2">
-                                    <button class="flex items-center px-3 py-2 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 focus:outline-none">
+                                    <button class="flex items-center px-3 py-2 text-sm font-medium text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none">
                                         <x-heroicon-o-clipboard-check class="w-5 h-5 mr-2" />
                                         <span>CONFIRM</span>
                                     </button>
@@ -167,12 +167,12 @@
                             </x-slot>
                         </x-form.basic-form>
                     </div>
-                    <div class="w-full mb-8 flex-shrink-0 order-1 lg:w-1/2 lg:mb-0 lg:order-2 mt-4">
+                    <div class="flex-shrink-0 order-1 w-full mt-4 mb-8 lg:w-1/2 lg:mb-0 lg:order-2">
                         <div class="flex justify-center lg:justify-end">
-                            <div class="border  max-w-md w-full px-4 py-3">
+                            <div class="w-full max-w-md px-4 py-3 border">
                                 <div class="flex items-center justify-between">
-                                    <h3 class="text-gray-700 font-medium">Collateral Information </h3>
-                                   
+                                    <h3 class="font-medium text-gray-700">Collateral Information </h3>
+
                                 </div>
                                 {{-- @dump($lists) --}}
 
@@ -214,7 +214,7 @@
                                         @endif
                                         @endforeach
 
-                                <div class="mt-6 border-b-2 pb-4">
+                                <div class="pb-4 mt-6 border-b-2">
                                     <div class="flex justify-between">
                                         <div class="text-gray-500">
                                             <p>Price Per Gram</p>
@@ -224,7 +224,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-6 border-b-2 pb-4">
+                                <div class="pb-4 mt-6 border-b-2">
                                     <div class="flex justify-between">
                                         <div class="text-gray-500">
                                             <p>Total Collateral Weight (g)</p>
@@ -234,7 +234,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-6 border-b-2 pb-4">
+                                <div class="pb-4 mt-6 border-b-2">
                                     <div class="flex justify-between">
                                         <div class="text-gray-500">
                                             <p>Pawn Value</p>
@@ -244,7 +244,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex justify-between mt-6 border-b-2 pb-4">
+                                <div class="flex justify-between pb-4 mt-6 border-b-2">
                                     <div class="font-semibold">
                                         <p>Maximum Allowable Pawn (80%)</p>
                                     </div>

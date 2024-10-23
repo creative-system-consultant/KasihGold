@@ -70,7 +70,6 @@ class UserDetailedInfo extends Component
             $weight = InvInfo::select('prod_weight')->where('item_id', $this->digitalType)->first();
 
             $available_goldbar = Goldbar::where('weight_vacant', '>=', $weight->prod_weight)->first();
-
             if ($available_goldbar) {
                 GoldbarOwnership::create([
                     'gold_id'           => $available_goldbar->id,
@@ -79,7 +78,7 @@ class UserDetailedInfo extends Component
                     'ouid'              => (string) Str::uuid(),
                     'weight'            => $weight->prod_weight,
                     'available_weight'  => $weight->prod_weight,
-                    'bought_price'      => ($this->transactionType != 'J' ? 0 : $this->price),
+                    'bought_price'      => ($this->transactionType != 'J' ? 0 : str_replace(',', '', $this->price)),
                     'active_ownership'  => 1,
                     'spot_gold'         => ($this->digitalType == 12 ? 1 : 0),
                     'referenceNumber'   => ($this->transactionType != 'J' ? '000000' : 'JOMPAY'),

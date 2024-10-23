@@ -120,6 +120,7 @@ return [
     */
 
     'key' => env('APP_KEY'),
+    'client_id' =>env('KAPB_CLIENTID'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -241,5 +242,5 @@ return [
     | This hehe
     */
 
-    'client_id' => env('CLIENT_ID'),
+    'client_id' => env('KAPB_CLIENTID'),
 ];

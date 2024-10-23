@@ -26,7 +26,7 @@
         @forelse ($list as $lists)
         <div class="col-span-12 intro-y md:col-span-6">
             <div class="bg-gray-100 border-l-4 border-yellow-400 shadow-lg rounded-xl">
-                <div class="flex flex-col lg:flex-row items-center px-4 py-4 lg:p-5">
+                <div class="flex flex-col items-center px-4 py-4 lg:flex-row lg:p-5">
                     <div class="w-16 lg:h-16 image-fit lg:mr-1">
                         <img alt="avatar" class="border-4 border-white rounded-full"
                             src="https://image.flaticon.com/icons/png/512/149/149071.png">
@@ -49,17 +49,17 @@
                                 <table class="w-full border border-gray-300 table-auto ">
                                     <tbody>
                                         @if ($lists->screening->count() == 11)
-                                            <div class="flex justify-center  space-x-3">
-                                                <div class="mt-6 px-4 border-r-2 border-l-2">
+                                            <div class="flex justify-center space-x-3">
+                                                <div class="px-4 mt-6 border-l-2 border-r-2">
                                                     <span class="text-base font-semibold ">Currently Screening:</span>
                                                     <p class="text-base font-semibold text-gray-500 ">11 Screenings</p>
                                                 </div>
-                                                <div class="mt-6 px-4 border-r-2">
+                                                <div class="px-4 mt-6 border-r-2">
                                                     <span class="text-base font-semibold ">Approved:</span>
                                                     <p class="text-base font-semibold text-gray-500 ">
                                                         {{ $lists->screening->where('status',1)->count() }} Screenings</p>
                                                 </div>
-                                                <div class="mt-6 px-4 border-r-2">
+                                                <div class="px-4 mt-6 border-r-2">
                                                     <span class="text-base font-semibold ">Declined:</span>
                                                     <p class="text-base font-semibold text-gray-500 ">
                                                         {{ $lists->screening->where('status',0)->count() }} Screenings</p>
@@ -75,14 +75,14 @@
 
                                             <div class="flex items-center justify-center mt-6">
                                                 <button type="button"
-                                                    class="flex items-center px-4 py-2 mx-2 text-sm bg-green-500 text-white hover:bg-green-600 rounded-lg"
+                                                    class="flex items-center px-4 py-2 mx-2 text-sm text-white bg-green-500 rounded-lg hover:bg-green-600"
                                                     wire:click=finalResult({{ $lists->id }},'terima')>
                                                     <x-heroicon-s-check class="-ml-0.5 mr-2 h-4 w-4" />
                                                     Approve this user
                                                 </button>
 
                                                 <button type="button"
-                                                    class="flex items-center px-4 py-2 mx-2 text-sm bg-red-500 text-white hover:bg-red-600 rounded-lg"
+                                                    class="flex items-center px-4 py-2 mx-2 text-sm text-white bg-red-500 rounded-lg hover:bg-red-600"
                                                     wire:click=finalResult({{ $lists->id }},'tolak')>
                                                     <x-heroicon-s-trash class="-ml-0.5 mr-2 h-4 w-4" />
                                                     Decline this user
@@ -107,7 +107,7 @@
                                                             <a href="{{ $item->website }}" target="_blank"
                                                                 class="text-teal-600 break-words whitespace-normal transition duration-150 ease-in-out hover:text-teal-500 focus:outline-none focus:underline">{{ $item->website }}</a>
                                                         </td>
-                                                        <td class="px-2 lg:px-4 py-2 border">
+                                                        <td class="px-2 py-2 border lg:px-4">
                                                             @php
                                                             $status = $item->screening->where('user_id',
                                                             $lists->id)->first();
@@ -129,13 +129,13 @@
                                                             @endif
                                                             @else
                                                             <button type="button"
-                                                                class="px-4 py-2 my-2 lg:my-0 mx-0 lg:mx-2 text-sm bg-green-500 text-white hover:bg-green-600 rounded-lg"
+                                                                class="px-4 py-2 mx-0 my-2 text-sm text-white bg-green-500 rounded-lg lg:my-0 lg:mx-2 hover:bg-green-600"
                                                                 wire:click="screenResult({{ $lists->id }},{{ $item->id }},'pass')">
                                                                 Approve
                                                             </button>
 
                                                             <button type="button"
-                                                                class="px-4 py-2 mx-0 lg:mx-2 text-sm bg-red-500 text-white hover:bg-red-600 rounded-lg "
+                                                                class="px-4 py-2 mx-0 text-sm text-white bg-red-500 rounded-lg lg:mx-2 hover:bg-red-600 "
                                                                 wire:click="screenResult({{ $lists->id }},{{ $item->id }},'fail')">
                                                                 Decline
                                                             </button>
@@ -159,7 +159,7 @@
             </div>
         </div>
         @empty
-        <div class="col-span-12 intro-y md:col-span-12 py-4 px-2 border-2 border-gray-200">
+        <div class="col-span-12 px-2 py-4 border-2 border-gray-200 intro-y md:col-span-12">
             <div class="flex justify-center">
                 <p class="font-semibold">No data at the moment</p>
             </div>
