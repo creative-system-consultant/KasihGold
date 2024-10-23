@@ -21,29 +21,35 @@
                     <a href="#" class="inline-flex items-center w-full px-4 py-2 text-base font-semibold text-gray-500 reportMenu hover:text-yellow-400"
                         x-on:click.prevent="active = 0 , open = false">
                         <x-heroicon-o-clipboard-list class="w-4 h-4 mr-2"/>
-                        <span>Sell List</span>
+                        <span>Outright Sell</span>
+                        <span class="ml-auto px-2 py-1 text-base font-bold text-red-500">{{ $outrightCount }}</span>
                     </a>
                     <a href="#" class="inline-flex items-center w-full px-4 py-2 text-base font-semibold text-gray-500 reportMenu hover:text-yellow-400"
                         x-on:click.prevent="active = 1, open = false">
                         <x-heroicon-o-login class="w-4 h-4 mr-2"/>
                         <span>Buyback</span>
+                        <span class="ml-auto px-2 py-1 text-base font-bold text-red-500">{{ $buybacksCount }}</span>
                     </a>
                     <a href="#" class="inline-flex items-center w-full px-4 py-2 text-base font-semibold text-gray-500 reportMenu hover:text-yellow-400"
                         x-on:click.prevent="active = 2, open = false">
                         <x-heroicon-o-presentation-chart-bar class="w-4 h-4 mr-2"/>
                         <span>Physical conversion</span>
+                        <span class="ml-auto px-2 py-1 text-base font-bold text-red-500">{{ $physicalCount }}</span>
                     </a>
                     <a href="#" class="inline-flex items-center w-full px-4 py-2 text-base font-semibold text-gray-500 reportMenu hover:text-yellow-400"
                         x-on:click.prevent="active = 3, open = false">
                         <x-heroicon-o-presentation-chart-bar class="w-4 h-4 mr-2"/>
                         <span>Gold Minting</span>
+                        <span class="ml-auto px-2 py-1 text-base font-bold text-red-500">{{ $spotgoldCount }}</span>
                     </a>
                     <a href="#" class="inline-flex items-center w-full px-4 py-2 text-base font-semibold text-gray-500 reportMenu hover:text-yellow-400"
                     x-on:click.prevent="active = 4, open = false">
                         <x-heroicon-o-presentation-chart-bar class="w-4 h-4 mr-2"/>
-                        <span>Outright Spot Gold</span>
+                        <span>Outright Sell Spot Gold</span>
+                        <span class="ml-auto px-2 py-1 text-base font-bold text-red-500">{{ $spotgoldOCount }}</span>
                     </a>
                 </x-slider>
+
             </div>
 
 

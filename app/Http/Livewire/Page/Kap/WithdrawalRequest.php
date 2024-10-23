@@ -347,12 +347,23 @@ class WithdrawalRequest extends Component
 
     public function render()
     {
+        $outright = OutrightSell::where('status', 0)->paginate(5);
+        $buybacks = BuyBack::where('status', 0)->paginate(5);
+        $physical = PhysicalConvert::where('status', 0)->paginate(5);
+        $spotgold = GoldMinting::where('status', 0)->paginate(5);
+        $spotgoldO = outrightSG::where('status', 0)->paginate(5);
+
         return view('livewire.page.kap.withdrawal-request', [
-            'outright' => OutrightSell::where('status', 0)->paginate(5),
-            'buybacks' => BuyBack::where('status', 0)->paginate(5),
-            'physical' => PhysicalConvert::where('status', 0)->paginate(5),
-            'spotgold' => GoldMinting::where('status', 0)->paginate(5),
-            'spotgoldO' => outrightSG::where('status', 0)->paginate(5),
+            'outright' => $outright,
+            'buybacks' => $buybacks,
+            'physical' => $physical,
+            'spotgold' => $spotgold,
+            'spotgoldO' => $spotgoldO,
+            'outrightCount' => OutrightSell::where('status', 0)->count(),
+            'buybacksCount' => BuyBack::where('status', 0)->count(),
+            'physicalCount' => PhysicalConvert::where('status', 0)->count(),
+            'spotgoldCount' => GoldMinting::where('status', 0)->count(),
+            'spotgoldOCount' => outrightSG::where('status', 0)->count(),
         ]);
     }
 }
