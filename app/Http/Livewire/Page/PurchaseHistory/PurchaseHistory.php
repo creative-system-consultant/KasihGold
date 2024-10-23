@@ -61,6 +61,10 @@ class PurchaseHistory extends Component
         GoldbarOwnership::where('referenceNumber', $referenceNumber)
             ->update(['financing_flag' => 0]);
 
+        $this->emit('message', [
+            'type' => 'success',
+            'message' => 'Financing has been settled successfully.'
+        ]);
         $this->confirmingId = null;
     }
 
@@ -75,7 +79,11 @@ class PurchaseHistory extends Component
 
     public function defaultPurchase($referenceNumber)
     {
-        $weightBreakdown = $this->breakdownWeight($this->selectedWeight);
+        $goldbarOwnerships = GoldbarOwnership::where('referenceNumber', $referenceNumber)
+            ->where('available_weight', '>', 0)
+            ->get();
+
+        $weightBreakdown = $this->breakdownWeight($goldbarOwnerships);
 
         // Create new OutrightSell record
         $outright = OutrightSell::create([
@@ -102,6 +110,10 @@ class PurchaseHistory extends Component
                 'ex_id' => $outrightId
             ]);
 
+        $this->emit('message', [
+            'type' => 'success',
+            'message' => 'Purchase has been sent for default, please wait for approval.'
+        ]);
         $this->confirmingDefaultId = null;
     }
 
@@ -111,7 +123,7 @@ class PurchaseHistory extends Component
         return $outrightPrice ? $outrightPrice->price : 0;
     }
 
-    private function breakdownWeight($totalWeight)
+    private function breakdownWeight($goldbarOwnerships)
     {
         $breakdown = [
             'centigram' => 0,
@@ -121,26 +133,33 @@ class PurchaseHistory extends Component
             'beyond1G' => 0,
         ];
 
-        $remainingWeight = $totalWeight;
+        foreach ($goldbarOwnerships as $ownership) {
+            $itemId = $ownership->item_id;
 
-        // Handle beyond1G (grams beyond 1g)
-        $breakdown['beyond1G'] = floor($remainingWeight);
-        $remainingWeight -= $breakdown['beyond1G'];
+            switch ($itemId) {
+                case 6: // 0.01g
+                    $breakdown['centigram'] += 1;
+                    break;
+                case 7: // 0.1g
+                    $breakdown['decigram'] += 1;
+                    break;
+                case 8: // 0.25g
+                    $breakdown['quarter_gram'] += 1;
+                    break;
+                case 9: // 1g
+                    $breakdown['one_gram'] += 1;
+                    break;
+                case 10: // 4.25g
+                    $breakdown['dinar'] += 1;
+                    break;
+                case 11: // 2.5g
+                    $breakdown['beyond1G'] += 1;
+                    break;
+                default:
 
-        // Handle one_gram
-        $breakdown['one_gram'] = floor($remainingWeight);
-        $remainingWeight -= $breakdown['one_gram'];
-
-        // Handle quarter_gram
-        $breakdown['quarter_gram'] = floor($remainingWeight / 0.25);
-        $remainingWeight -= $breakdown['quarter_gram'] * 0.25;
-
-        // Handle decigram
-        $breakdown['decigram'] = floor($remainingWeight / 0.1);
-        $remainingWeight -= $breakdown['decigram'] * 0.1;
-
-        // Handle centigram
-        $breakdown['centigram'] = round($remainingWeight / 0.01);
+                    break;
+            }
+        }
 
         return $breakdown;
     }
