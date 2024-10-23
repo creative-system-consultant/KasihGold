@@ -131,6 +131,7 @@ class PurchaseHistory extends Component
             'quarter_gram' => 0,
             'one_gram' => 0,
             'beyond1G' => 0,
+            'dinar' => 0,
         ];
 
         foreach ($goldbarOwnerships as $ownership) {
