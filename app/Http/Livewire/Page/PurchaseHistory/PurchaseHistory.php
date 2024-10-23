@@ -95,6 +95,7 @@ class PurchaseHistory extends Component
             'quarter_gram' => $weightBreakdown['quarter_gram'],
             'one_gram' => $weightBreakdown['one_gram'],
             'beyond1G' => $weightBreakdown['beyond1G'],
+            'dinar' => $weightBreakdown['dinar'],
             'surrendered_amount' => $this->totalSellAmount,
             'ref_payment' => $referenceNumber,
             'created_by' => auth()->user()->id,
