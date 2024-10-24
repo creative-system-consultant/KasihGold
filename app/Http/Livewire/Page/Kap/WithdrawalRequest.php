@@ -68,12 +68,12 @@ class WithdrawalRequest extends Component
             $goldBar = Goldbar::where('id', $ownership->gold_id)->first();
             $goldBar->weight_occupied -= $ownership->weight;
             $goldBar->weight_vacant += $ownership->weight;
-            $goldBar->save();
+            // $goldBar->save();
             if ($ownership->financing_flag == 2) {
                 $ownership->financing_flag = 3;
             }
             $ownership->ex_flag = 1;
-            $ownership->save();
+            // $ownership->save();
         }
 
         $this->closeModal();

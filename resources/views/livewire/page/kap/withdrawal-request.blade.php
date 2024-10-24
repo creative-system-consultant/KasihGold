@@ -176,10 +176,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="flex justify-end mt-4">
-                                                                    <button wire:click="outDec({{ $outlist->id }})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
+                                                                    <button wire:click.prevent="outDec({{ $outlist->id }})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
                                                                         Decline
                                                                     </button>
-                                                                    <button wire:click="outApp({{ $outlist->id }})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
+                                                                    <button wire:click.prevent="outApp({{ $outlist->id }})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
                                                                         Approve
                                                                     </button>
                                                                 </div>
