@@ -97,17 +97,15 @@
                                             <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-{{ ($outlist->status == 1) ? 'green' : 'yellow'}}-100 text-{{ ($outlist->status == 1) ? 'green' : 'yellow'}}-800">{{ ($outlist->status == 1) ? 'Successful': 'Pending'}}</div>
                                         </x-table.table-body>
                                         <x-table.table-body colspan="" class="text-sm font-medium text-gray-700 ">
-                                            <div class="flex" x-data="{ openShow: false ,  openModal : false}">
-
-                                                <a href="#detail_{{$outlist->id}}" @click="openShow = true"
-                                                    class="inline-flex items-center px-4 py-2 mr-1 font-semibold text-white bg-orange-400 rounded-lg hover:bg-orange-500 focus:outline-none">
-                                                        <x-heroicon-o-eye class="w-5 h-5 mr-1" />
-                                                        Show
+                                            <div>
+                                                <a href="#" wire:click.prevent="showModal({{ $outlist->id }})"
+                                                    class="inline-flex items-center px-4 py-2 font-semibold text-white bg-orange-400 rounded-lg hover:bg-orange-500 focus:outline-none">
+                                                    <x-heroicon-o-eye class="w-5 h-5 mr-1" />
+                                                    Show
                                                 </a>
 
-                                                <! -- Start modal Show -->
-                                                <x-general.modal modalActive="openShow" title="Electronic Fund Transfer" modalSize="lg">
-                                                    <x-form.basic-form >
+                                                <x-general.modal modalActive="$wire.activeModal === {{ $outlist->id }}" title="Electronic Fund Transfer" modalSize="lg">
+                                                    <x-form.basic-form>
                                                         <x-slot name="content">
                                                             <div class="p-4 mt-4 leading-4">
                                                                 <div class="h-full">
@@ -155,10 +153,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="flex justify-end mt-4">
-                                                                    <button wire:click="outDec({{$outlist->id}})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
+                                                                    <button wire:click="outDec({{ $outlist->id }})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
                                                                         Decline
                                                                     </button>
-                                                                    <button wire:click="outApp({{$outlist->id}})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
+                                                                    <button wire:click="outApp({{ $outlist->id }})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
                                                                         Approve
                                                                     </button>
                                                                 </div>
@@ -233,16 +231,15 @@
                                             <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-{{ ($buyback->status == 1) ? 'green' : 'yellow'}}-100 text-{{ ($buyback->status == 1) ? 'green' : 'yellow'}}-800">{{ ($buyback->status == 1) ? 'Successful': 'Pending'}}</span>
                                         </x-table.table-body>
                                         <x-table.table-body colspan="" class="text-sm font-medium text-gray-700 ">
-                                            <div x-data="{ openShow: false}">
-                                                <a href="#detail_{{$buyback->id}}" @click="openShow = true"
+                                            <div>
+                                                <a href="#" wire:click.prevent="showModal({{ $buyback->id }})"
                                                     class="inline-flex items-center px-4 py-2 font-semibold text-white bg-orange-400 rounded-lg hover:bg-orange-500 focus:outline-none">
                                                     <x-heroicon-o-eye class="w-5 h-5 mr-1" />
                                                     Show
                                                 </a>
 
-                                                {{-- Start modal Show --}}
-                                                <x-general.modal modalActive="openShow" title="Electronic Fund Transfer" modalSize="lg">
-                                                    <x-form.basic-form >
+                                                <x-general.modal modalActive="$wire.activeModal === {{ $buyback->id }}" title="Electronic Fund Transfer" modalSize="lg">
+                                                    <x-form.basic-form>
                                                         <x-slot name="content">
                                                             <div class="p-4 mt-4 leading-4">
                                                                 <div class="h-full">
@@ -297,10 +294,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="flex justify-end mt-4">
-                                                                    <button wire:click="bbDec({{$buyback->id}})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
+                                                                    <button wire:click="bbDec({{ $buyback->id }})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
                                                                         Decline
                                                                     </button>
-                                                                    <button wire:click="bbApp({{$buyback->id}})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
+                                                                    <button wire:click="bbApp({{ $buyback->id }})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
                                                                         Approve
                                                                     </button>
                                                                 </div>
@@ -308,7 +305,6 @@
                                                         </x-slot>
                                                     </x-form.basic-form>
                                                 </x-general.modal>
-                                                {{-- End modal Show --}}
                                             </div>
                                         </x-table.table-body>
                                     </tr>
@@ -374,16 +370,15 @@
                                             <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-{{ ($physicals->status == 1) ? 'green' : 'yellow'}}-100 text-{{ ($physicals->status == 1) ? 'green' : 'yellow'}}-800">{{ ($physicals->status == 1) ? 'Successful': 'Pending'}}</span>
                                         </x-table.table-body>
                                         <x-table.table-body colspan="" class="text-sm font-medium text-gray-700 ">
-                                            <div x-data="{ openShow: false}">
-                                                <a href="#detail_{{$physicals->id}}" @click="openShow = true"
+                                            <div>
+                                                <a href="#" wire:click.prevent="showModal({{ $physicals->id }})"
                                                     class="inline-flex items-center px-4 py-2 font-semibold text-white bg-orange-400 rounded-lg hover:bg-orange-500 focus:outline-none">
                                                     <x-heroicon-o-eye class="w-5 h-5 mr-1" />
                                                     Show
                                                 </a>
 
-                                                {{-- Start modal Show --}}
-                                                <x-general.modal modalActive="openShow" title="Physical Conversion" modalSize="lg">
-                                                    <x-form.basic-form >
+                                                <x-general.modal modalActive="$wire.activeModal === {{ $physicals->id }}" title="Physical Conversion" modalSize="lg">
+                                                    <x-form.basic-form>
                                                         <x-slot name="content">
                                                             <div class="p-4 mt-4 leading-4">
                                                                 <div class="h-full">
@@ -427,10 +422,10 @@
                                                                 </div>
 
                                                                 <div class="flex justify-end mt-4">
-                                                                    <button wire:click="pConvDec({{$physicals->id}})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
+                                                                    <button wire:click="pConvDec({{ $physicals->id }})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
                                                                         Decline
                                                                     </button>
-                                                                    <button wire:click="pConvApp({{$physicals->id}})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
+                                                                    <button wire:click="pConvApp({{ $physicals->id }})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
                                                                         Approve
                                                                     </button>
                                                                 </div>
@@ -438,7 +433,6 @@
                                                         </x-slot>
                                                     </x-form.basic-form>
                                                 </x-general.modal>
-                                                {{-- End modal Show --}}
                                             </div>
                                         </x-table.table-body>
                                     </tr>
@@ -500,16 +494,15 @@
                                             <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-{{ ($spotgolds->status == 1) ? 'green' : 'yellow'}}-100 text-{{ ($spotgolds->status == 1) ? 'green' : 'yellow'}}-800">{{ ($spotgolds->status == 1) ? 'Successful': 'Pending'}}</span>
                                         </x-table.table-body>
                                         <x-table.table-body colspan="" class="text-sm font-medium text-gray-700 ">
-                                            <div x-data="{ openShow: false}">
-                                                <a href="#detail_{{$spotgolds->id}}" @click="openShow = true"
+                                            <div>
+                                                <a href="#" wire:click.prevent="showModal({{ $spotgolds->id }})"
                                                     class="inline-flex items-center px-4 py-2 font-semibold text-white bg-orange-400 rounded-lg hover:bg-orange-500 focus:outline-none">
                                                     <x-heroicon-o-eye class="w-5 h-5 mr-1" />
                                                     Show
                                                 </a>
 
-                                                {{-- Start modal Show --}}
-                                                <x-general.modal modalActive="openShow" title="Gold Minting Request" modalSize="lg">
-                                                    <x-form.basic-form >
+                                                <x-general.modal modalActive="$wire.activeModal === {{ $spotgolds->id }}" title="Gold Minting Request" modalSize="lg">
+                                                    <x-form.basic-form>
                                                         <x-slot name="content">
                                                             <div class="p-4 mt-4 leading-4">
                                                                 <div class="h-full">
@@ -546,10 +539,10 @@
                                                                 </div>
 
                                                                 <div class="flex justify-end mt-4">
-                                                                    <button wire:click="gMintDec({{$spotgolds->id}})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
+                                                                    <button wire:click="gMintDec({{ $spotgolds->id }})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
                                                                         Decline
                                                                     </button>
-                                                                    <button wire:click="gMintApp({{$spotgolds->id}})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
+                                                                    <button wire:click="gMintApp({{ $spotgolds->id }})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
                                                                         Approve
                                                                     </button>
                                                                 </div>
@@ -557,7 +550,6 @@
                                                         </x-slot>
                                                     </x-form.basic-form>
                                                 </x-general.modal>
-                                                {{-- End modal Show --}}
                                             </div>
                                         </x-table.table-body>
                                     </tr>
@@ -619,16 +611,15 @@
                                             <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-{{ ($itemSG->status == 1) ? 'green' : 'yellow'}}-100 text-{{ ($itemSG->status == 1) ? 'green' : 'yellow'}}-800">{{ ($itemSG->status == 1) ? 'Successful': 'Pending'}}</span>
                                         </x-table.table-body>
                                         <x-table.table-body colspan="" class="text-sm font-medium text-gray-700 ">
-                                            <div x-data="{ openShow: false}">
-                                                <a href="#detail_{{$itemSG->id}}" @click="openShow = true"
+                                            <div>
+                                                <a href="#" wire:click.prevent="showModal({{ $itemSG->id }})"
                                                     class="inline-flex items-center px-4 py-2 font-semibold text-white bg-orange-400 rounded-lg hover:bg-orange-500 focus:outline-none">
                                                     <x-heroicon-o-eye class="w-5 h-5 mr-1" />
                                                     Show
                                                 </a>
 
-                                                {{-- Start modal Show --}}
-                                                <x-general.modal modalActive="openShow" title="Electronic Fund Transfer" modalSize="lg">
-                                                    <x-form.basic-form >
+                                                <x-general.modal modalActive="$wire.activeModal === {{ $itemSG->id }}" title="Electronic Fund Transfer" modalSize="lg">
+                                                    <x-form.basic-form>
                                                         <x-slot name="content">
                                                             <div class="p-4 mt-4 leading-4">
                                                                 <div class="h-full">
@@ -676,10 +667,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="flex justify-end mt-4">
-                                                                    <button wire:click="SGOutDec({{$itemSG->id}})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
+                                                                    <button wire:click="SGOutDec({{ $itemSG->id }})" class="flex px-4 py-2 mr-2 text-sm font-bold text-white bg-red-600 rounded focus:outline-none hover:bg-red-500">
                                                                         Decline
                                                                     </button>
-                                                                    <button wire:click="SGOutApp({{$itemSG->id}})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
+                                                                    <button wire:click="SGOutApp({{ $itemSG->id }})" class="flex px-4 py-2 text-sm font-bold text-white bg-green-600 rounded focus:outline-none hover:bg-green-500">
                                                                         Approve
                                                                     </button>
                                                                 </div>
@@ -687,7 +678,6 @@
                                                         </x-slot>
                                                     </x-form.basic-form>
                                                 </x-general.modal>
-                                                {{-- End modal Show --}}
                                             </div>
                                         </x-table.table-body>
                                     </tr>
@@ -707,3 +697,17 @@
         </div>
     </div>
 </div>
+
+
+@push('js')
+    <script>
+        window.livewire.on('message', message => {
+            Swal.fire({
+                icon: message.type,
+                title: message.message,
+                showConfirmButton: false,
+                timer: 2500
+            });
+        });
+    </script>
+@endpush

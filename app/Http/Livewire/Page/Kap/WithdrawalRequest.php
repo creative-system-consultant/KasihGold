@@ -22,7 +22,18 @@ class WithdrawalRequest extends Component
     use WithFileUploads;
 
     public $appid, $proofdoc;
+    public $showModal = false;
+    public $activeModal = null;
 
+    public function showModal($id)
+    {
+        $this->activeModal = $id;
+    }
+
+    public function closeModal()
+    {
+        $this->activeModal = null;
+    }
 
     public function outApp($appid)
     {
@@ -51,17 +62,16 @@ class WithdrawalRequest extends Component
             $ownership->ex_flag = 1;
             $ownership->save();
         }
+        $this->closeModal();
 
-        session()->flash('success');
-        session()->flash('title', 'Success!');
-        session()->flash('message', 'Outright Sell has successfully approved!');
-
-        return redirect('home');
+        $this->emit('message', [
+            'type' => 'success',
+            'message' => 'Outright Sell has successfully approved!'
+        ]);
     }
 
     public function outDec($appid)
     {
-
         $outright = OutrightSell::where('id', $appid)->first();
 
         $outright->status = 2;
@@ -78,11 +88,12 @@ class WithdrawalRequest extends Component
             $ownership->save();
         }
 
+        $this->closeModal();
 
-        session()->flash('warning');
-        session()->flash('title', 'Declined!');
-        session()->flash('message', 'Outright Sell has been declined and the gold is returned back to their inventory!');
-        return redirect('home');
+        $this->emit('message', [
+            'type' => 'warning',
+            'message' => 'Outright Sell has been declined and the gold is returned back to their inventory!'
+        ]);
     }
 
     public function bbApp($appid)
@@ -111,10 +122,12 @@ class WithdrawalRequest extends Component
             $ownership->save();
         }
 
-        session()->flash('success');
-        session()->flash('title', 'Success!');
-        session()->flash('message', 'Buyback has successfully approved!');
-        return redirect('home');
+        $this->closeModal();
+
+        $this->emit('message', [
+            'type' => 'success',
+            'message' => 'Buyback has successfully approved!'
+        ]);
     }
 
     public function bbDec($appid)
@@ -134,10 +147,12 @@ class WithdrawalRequest extends Component
             $ownership->save();
         }
 
-        session()->flash('warning');
-        session()->flash('title', 'Declined!');
-        session()->flash('message', 'Buyback has been declined and the gold is returned back to their inventory!');
-        return redirect('home');
+        $this->closeModal();
+
+        $this->emit('message', [
+            'type' => 'warning',
+            'message' => 'Buyback has been declined and the gold is returned back to their inventory!'
+        ]);
     }
 
     public function pConvApp($appid)
@@ -162,14 +177,14 @@ class WithdrawalRequest extends Component
             $ownership->save();
         }
 
-        session()->flash('success');
-        session()->flash('title', 'Success!');
-        session()->flash('message', 'Physical Conversion has successfully approved and will reach at their doorstep soon!');
-
         Mail::to("hadikasihgold@gmail.com")->send(new PhysicalGoldExchange($phyConv, $toyyibBill));
 
+        $this->closeModal();
 
-        return redirect('home');
+        $this->emit('message', [
+            'type' => 'success',
+            'message' => 'Physical Conversion has successfully approved and will reach at their doorstep soon!'
+        ]);
     }
 
     public function pConvDec($appid)
@@ -190,14 +205,12 @@ class WithdrawalRequest extends Component
             $ownership->save();
         }
 
-        session()->flash('warning');
-        session()->flash('title', 'Declined!');
-        session()->flash('message', 'Physical Conversion has been declined and the gold is returned back to their inventory!');
+        $this->closeModal();
 
-        // Mail::to("mehmediskandar7@gmail.com")->send(new PhysicalGoldExchange($phyConv, $toyyibBill));
-
-
-        return redirect('home');
+        $this->emit('message', [
+            'type' => 'warning',
+            'message' => 'Physical Conversion has been declined and the gold is returned back to their inventory!'
+        ]);
     }
 
     public function gMintApp($appid)
@@ -227,14 +240,14 @@ class WithdrawalRequest extends Component
             $ownership->save();
         }
 
-        session()->flash('success');
-        session()->flash('title', 'Success!');
-        session()->flash('message', 'Gold Minting Request has successfully approved and will reach at their doorstep soon!');
-
         Mail::to("mehmediskandar7@gmail.com")->send(new PhysicalGoldExchange($goldMint, $toyyibBill));
 
+        $this->closeModal();
 
-        return redirect('home');
+        $this->emit('message', [
+            'type' => 'success',
+            'message' => 'Gold Minting has successfully approved and will reach at their doorstep soon!'
+        ]);
     }
 
     public function gMintDec($appid)
@@ -260,14 +273,12 @@ class WithdrawalRequest extends Component
             $ownership->save();
         }
 
-        session()->flash('warning');
-        session()->flash('title', 'Declined!');
-        session()->flash('message', 'Gold Minting Request has been declined and the gold is returned back to their inventory!');
+        $this->closeModal();
 
-        Mail::to("mehmediskandar7@gmail.com")->send(new PhysicalGoldExchange($goldMint, $toyyibBill));
-
-
-        return redirect('home');
+        $this->emit('message', [
+            'type' => 'warning',
+            'message' => 'Gold Minting Request has been declined and the gold is returned back to their inventory!'
+        ]);
     }
 
     public function SGOutApp($appid)
@@ -303,14 +314,12 @@ class WithdrawalRequest extends Component
             $ownership->save();
         }
 
-        session()->flash('success');
-        session()->flash('title', 'Success!');
-        session()->flash('message', 'Spot Gold Outright Request has successfully approved!');
+        $this->closeModal();
 
-        // Mail::to("mehmediskandar7@gmail.com")->send(new PhysicalGoldExchange($goldMint, $toyyibBill));
-
-
-        return redirect('home');
+        $this->emit('message', [
+            'type' => 'success',
+            'message' => 'Spot Gold Outright Request has successfully approved!'
+        ]);
     }
 
     public function SGOutDec($appid)
@@ -334,15 +343,12 @@ class WithdrawalRequest extends Component
             $ownership->save();
         }
 
-        session()->flash('warning');
-        session()->flash('title', 'Declined!');
-        session()->flash('message', 'Spot Gold Outright Request has declined and the gold is returned back to their inventory!');
+        $this->closeModal();
 
-
-        // Mail::to("mehmediskandar7@gmail.com")->send(new PhysicalGoldExchange($goldMint, $toyyibBill));
-
-
-        return redirect('home');
+        $this->emit('message', [
+            'type' => 'warning',
+            'message' => 'Spot Gold Outright Request has been declined and the gold is returned back to their inventory!'
+        ]);
     }
 
     public function render()
