@@ -139,17 +139,40 @@
 
                                                                     <h2 class="mt-5 text-lg font-bold">Proof of Transfer</h2>
 
-                                                                    <div class="flex mt-5">
-                                                                        <label for="product-img1"
-                                                                            class="w-full p-10 text-center {{ ($errors->has('proofdoc')) ? 'bg-red-400  hover:bg-red-500': 'bg-gray-200  hover:bg-gray-300' }} rounded-lg shadow cursor-pointer hover:bg-gray-300 group">
+                                                                    <div x-data="{ isUploading: false, progress: 0 }" 
+                                                                         x-on:livewire-upload-start="isUploading = true"
+                                                                         x-on:livewire-upload-finish="isUploading = true; progress = 100"
+                                                                         x-on:livewire-upload-error="isUploading = false"
+                                                                         x-on:livewire-upload-progress="progress = $event.detail.progress">
+                                                                        <div class="flex mt-5">
+                                                                            <label for="proofdoc-{{ $outlist->id }}"
+                                                                                class="w-full p-10 text-center {{ ($errors->has('proofdoc')) ? 'bg-red-400  hover:bg-red-500': 'bg-gray-200  hover:bg-gray-300' }} rounded-lg shadow cursor-pointer hover:bg-gray-300 group">
+                                                                                @if($proofdocPreview)
+                                                                                    <img src="{{ $proofdocPreview }}" alt="Preview" class="mx-auto mb-4 max-h-40 object-cover">
+                                                                                @else
+                                                                                    <span class="inline-flex items-center font-medium {{ ($errors->has('proofdoc')) ? 'text-red-400 ': 'text-gray-600' }} {{ ($errors->has('proofdoc')) ? 'group-hover:text-red-500': 'group-hover:text-gray-700' }}">
+                                                                                        <x-heroicon-o-plus-circle class="w-10 h-10 mr-2 {{ ($errors->has('proofdoc')) ? 'text-red-600 ': 'text-yellow-400' }} " />
+                                                                                        <span>Upload Proof of Transfer</span>
+                                                                                    </span>
+                                                                                @endif
+                                                                            </label>
+                                                                            <input type="file" class="hidden" id="proofdoc-{{ $outlist->id }}"
+                                                                                wire:model="proofdoc" accept="image/*">
+                                                                        </div>
 
-                                                                                <span
-                                                                                    class="inline-flex items-center font-medium {{ ($errors->has('proofdoc')) ? 'text-red-400 ': 'text-gray-600' }} {{ ($errors->has('proofdoc')) ? 'group-hover:text-red-500': 'group-hover:text-gray-700' }}">
-                                                                                    <x-heroicon-o-plus-circle class="w-10 h-10 mr-2 {{ ($errors->has('proofdoc')) ? 'text-red-600 ': 'text-yellow-400' }} " />
-                                                                                </span>
-                                                                        </label>
-                                                                        <input type="file" class="absolute invisible pointer-events-none" id="product-img1"
-                                                                            name="product-img1" wire:model="proofdoc">
+                                                                        <!-- Progress Bar -->
+                                                                        <div x-show="isUploading || progress === 100" class="mt-2">
+                                                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                                                <div class="bg-blue-600 h-2.5 rounded-full" x-bind:style="`width: ${progress}%`"></div>
+                                                                            </div>
+                                                                            <p class="mt-2 text-sm text-gray-500" x-text="progress === 100 ? 'Upload complete' : `Upload progress: ${progress}%`"></p>
+                                                                        </div>
+
+                                                                        @if($proofdocFilename)
+                                                                            <p class="mt-2 text-sm text-gray-600">File: {{ $proofdocFilename }}</p>
+                                                                        @endif
+
+                                                                        @error('proofdoc') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                                                     </div>
                                                                 </div>
                                                                 <div class="flex justify-end mt-4">
@@ -712,6 +735,13 @@
 
         window.livewire.on('refreshComponent', () => {
             Livewire.emit('$refresh');
+        });
+
+        // Prevent default form submission
+        document.addEventListener('submit', function(e) {
+            if (e.target.hasAttribute('wire:submit.prevent')) {
+                e.preventDefault();
+            }
         });
     </script>
 @endpush

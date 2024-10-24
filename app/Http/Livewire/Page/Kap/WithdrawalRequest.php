@@ -16,6 +16,7 @@ use App\Models\ToyyibBills;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class WithdrawalRequest extends Component
 {
@@ -24,6 +25,8 @@ class WithdrawalRequest extends Component
     public $appid, $proofdoc;
     public $showModal = false;
     public $activeModal = null;
+    public $proofdocFilename;
+    public $proofdocPreview;
 
     public function showModal($id)
     {
@@ -35,23 +38,33 @@ class WithdrawalRequest extends Component
         $this->activeModal = null;
     }
 
+    public function updatedProofdoc()
+    {
+        $this->validate([
+            'proofdoc' => 'file|image|max:4096', // 4MB Max, ensure it's an image
+        ]);
+
+        if ($this->proofdoc) {
+            $this->proofdocFilename = $this->proofdoc->getClientOriginalName();
+            $this->proofdocPreview = $this->proofdoc->temporaryUrl();
+        }
+    }
+
     public function outApp($appid)
     {
         $this->validate([
             'proofdoc' => 'required|file|max:4096', // 4MB Max
-
         ]);
 
         $outright = OutrightSell::where('id', $appid)->first();
 
         $outright->status = 1;
-        $outright->doc_1 = $this->proofdoc->storeAs('public/exit', $outright->id . '-Outright-ProofOfTransfer.jpg');;
+        $outright->doc_1 = $this->proofdoc->store('public/exit', $outright->id . '-Outright-ProofOfTransfer.jpg');
         $outright->save();
 
         $goldOwnership = GoldbarOwnership::where('ex_id', $outright->id)->where('user_id', $outright->user_id)->get();
 
         foreach ($goldOwnership as $ownership) {
-
             $goldBar = Goldbar::where('id', $ownership->gold_id)->first();
             $goldBar->weight_occupied -= $ownership->weight;
             $goldBar->weight_vacant += $ownership->weight;
@@ -62,6 +75,7 @@ class WithdrawalRequest extends Component
             $ownership->ex_flag = 1;
             $ownership->save();
         }
+
         $this->closeModal();
         $this->refreshComponent();
 
@@ -69,6 +83,8 @@ class WithdrawalRequest extends Component
             'type' => 'success',
             'message' => 'Outright Sell has successfully approved!'
         ]);
+
+        $this->reset('proofdoc');
     }
 
     public function outDec($appid)
