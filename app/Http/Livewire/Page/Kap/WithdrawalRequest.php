@@ -63,6 +63,7 @@ class WithdrawalRequest extends Component
             $ownership->save();
         }
         $this->closeModal();
+        $this->refreshComponent();
 
         $this->emit('message', [
             'type' => 'success',
@@ -89,6 +90,7 @@ class WithdrawalRequest extends Component
         }
 
         $this->closeModal();
+        $this->refreshComponent();
 
         $this->emit('message', [
             'type' => 'warning',
@@ -123,6 +125,7 @@ class WithdrawalRequest extends Component
         }
 
         $this->closeModal();
+        $this->refreshComponent();
 
         $this->emit('message', [
             'type' => 'success',
@@ -148,6 +151,7 @@ class WithdrawalRequest extends Component
         }
 
         $this->closeModal();
+        $this->refreshComponent();
 
         $this->emit('message', [
             'type' => 'warning',
@@ -180,6 +184,7 @@ class WithdrawalRequest extends Component
         Mail::to("hadikasihgold@gmail.com")->send(new PhysicalGoldExchange($phyConv, $toyyibBill));
 
         $this->closeModal();
+        $this->refreshComponent();
 
         $this->emit('message', [
             'type' => 'success',
@@ -206,6 +211,7 @@ class WithdrawalRequest extends Component
         }
 
         $this->closeModal();
+        $this->refreshComponent();
 
         $this->emit('message', [
             'type' => 'warning',
@@ -243,6 +249,7 @@ class WithdrawalRequest extends Component
         Mail::to("mehmediskandar7@gmail.com")->send(new PhysicalGoldExchange($goldMint, $toyyibBill));
 
         $this->closeModal();
+        $this->refreshComponent();
 
         $this->emit('message', [
             'type' => 'success',
@@ -274,6 +281,7 @@ class WithdrawalRequest extends Component
         }
 
         $this->closeModal();
+        $this->refreshComponent();
 
         $this->emit('message', [
             'type' => 'warning',
@@ -315,6 +323,7 @@ class WithdrawalRequest extends Component
         }
 
         $this->closeModal();
+        $this->refreshComponent();
 
         $this->emit('message', [
             'type' => 'success',
@@ -344,11 +353,17 @@ class WithdrawalRequest extends Component
         }
 
         $this->closeModal();
+        $this->refreshComponent();
 
         $this->emit('message', [
             'type' => 'warning',
             'message' => 'Spot Gold Outright Request has been declined and the gold is returned back to their inventory!'
         ]);
+    }
+
+    public function refreshComponent()
+    {
+        $this->emit('refreshComponent');
     }
 
     public function render()

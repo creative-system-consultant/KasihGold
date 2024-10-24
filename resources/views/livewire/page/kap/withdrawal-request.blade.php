@@ -709,5 +709,9 @@
                 timer: 2500
             });
         });
+
+        window.livewire.on('refreshComponent', () => {
+            Livewire.emit('$refresh');
+        });
     </script>
 @endpush
