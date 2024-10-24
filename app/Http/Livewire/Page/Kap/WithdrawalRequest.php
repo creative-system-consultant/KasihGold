@@ -59,7 +59,11 @@ class WithdrawalRequest extends Component
         $outright = OutrightSell::where('id', $appid)->first();
 
         $outright->status = 1;
-        $outright->doc_1 = $this->proofdoc->store('public/exit', $outright->id . '-Outright-ProofOfTransfer.jpg');
+
+        // Store the file and get the path
+        $path = $this->proofdoc->store('exit', 'public');
+        $outright->doc_1 = $path;
+
         $outright->save();
 
         $goldOwnership = GoldbarOwnership::where('ex_id', $outright->id)->where('user_id', $outright->user_id)->get();
