@@ -45,6 +45,7 @@ use App\Http\Controllers\BankInformationController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\AllNewsController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\FiuuController;
 use App\Http\Controllers\SnapAPI;
 use App\Http\Controllers\ToyyibpayController;
 use App\Http\Controllers\UsersController;
@@ -74,6 +75,7 @@ use App\Http\Livewire\Page\Reporting\GoldReport;
 use App\Http\Livewire\Page\Reporting\UserReport;
 
 use App\Http\Livewire\Page\Lelongan\Lelongan;
+use App\Http\Livewire\Page\Payment\RedirectFiuu;
 use App\Http\Livewire\Page\PurchaseHistory\PurchaseHistory;
 
 Route::get('/clear-cache', function () {
@@ -95,6 +97,11 @@ Route::middleware('guest')->group(function () {
     Route::post('toyyibpay-callback-mint', [ToyyibpayController::class, 'callbackMint'])->name('toyyibpay-callback-mint');
     Route::post('toyyibpay-callbackConv', [ToyyibpayController::class, 'callbackConv'])->name('toyyibpay-callbackConv');
     Route::post('pay2', [SnapAPI::class, 'callback'])->name('pay2');
+    Route::get('/payment/fiuu/return', [FiuuController::class, 'fiuuReturn'])->name('fiuu-return');
+    Route::post('/payment/fiuu/callback', [FiuuController::class, 'fiuuCallback'])->name('fiuu-callback');
+    Route::get('/payment/fiuu/cancel', [FiuuController::class, 'fiuuCancel'])->name('fiuu-cancel');
+    Route::view('/payment/fiuu-failed', 'fiuu-failed')->name('fiuu-failed');
+    Route::view('/payment/fiuu-success', 'fiuu-success')->name('fiuu-success');
 
 
 
@@ -149,6 +156,9 @@ Route::middleware('auth')->group(function () {
         Route::get('pay', [SnapAPI::class, 'index'])->name('pay');
         Route::get('snapBuy', [SnapAPI::class, 'snapBuy'])->name('snapBuy');
         Route::post('pay2', [SnapAPI::class, 'callback'])->name('pay2');
+
+        // Fiuu
+        Route::get('/payment/fiuu/redirect', [FiuuController::class, 'fiuuRedirect'])->name('fiuu-redirect');
 
         Route::get('cart', [CartController::class, 'index'])->name('cart');
         Route::post('cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
