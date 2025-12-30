@@ -26,7 +26,7 @@
                                             </div>
                                             <div class="p-4">
                                                 <div class="grid grid-cols-1 gap-0 md:grid-cols-2">
-                                                    <div class="grid grid-cols-2 gap-4">
+                                                    <div class="grid grid-cols-3 gap-4">
                                                         <div class="p-4 border rounded-md cursor-pointer hover:bg-yellow-300 {{$selectPayment == 'snapNpay' ? 'bg-yellow-300' : 'bg-white'}}"
                                                             wire:click="select_payment('snapNpay')"
                                                             @click="disableBtn = true" >
@@ -47,6 +47,16 @@
                                                                 Service Charge : RM 1.00
                                                             </p>
                                                         </div>
+                                                        <div class="p-4 border rounded-md cursor-pointer hover:bg-yellow-300  {{$selectPayment == 'fiuu' ? 'bg-yellow-300' : 'bg-white'}}"
+                                                        wire:click="select_payment('fiuu')"
+                                                        @click="disableBtn = true">
+                                                            <div class="flex justify-center">
+                                                                <img src="{{ asset('img/Fiuu.png') }}"  class="w-auto h-12"/>
+                                                            </div>
+                                                            <p class="mt-2 text-xs text-center ">
+                                                                Service Charge : RM 1.00
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -59,12 +69,26 @@
                                             <div class="flex justify-between">
                                                 @if($selectPayment == 'toyyib')
                                                     <img src="{{ asset('img/toyyibpay.png') }}"  class="w-auto h-10"/>
+                                                    <div>
+                                                        <img src="{{ asset('img/visa-mastercard-.jpg') }}"  class="w-auto h-10"/>
+                                                    </div>
+                                                @elseif($selectPayment == 'snapNpay')
+                                                    <img src="{{ asset('img/snapNpay.png') }}"  class="w-auto h-10"/>
+                                                    <div>
+                                                        <img src="{{ asset('img/visa-mastercard-.jpg') }}"  class="w-auto h-10"/>
+                                                    </div>
                                                 @else
-                                                    <img src="{{ asset('img/snapNpay.png') }}"  class="w-auto h-10 mt-2"/>
+                                                    <img src="{{ asset('img/Fiuu.png') }}"  class="w-auto h-10"/>
+                                                    <div class="flex justify-end">
+                                                        <img src="{{ asset('img/payment-method-fiuu/logo-visa.png') }}"  class="w-auto h-10"/>
+                                                        <img src="{{ asset('img/payment-method-fiuu/logo-mastercard.png') }}"  class="w-auto h-10"/>
+                                                        <img src="{{ asset('img/payment-method-fiuu/logo-mydebit.png') }}"  class="w-auto h-10"/>
+                                                        <img src="{{ asset('img/payment-method-fiuu/logo-fpx.png') }}"  class="w-auto h-10"/>
+                                                        <img src="{{ asset('img/payment-method-fiuu/logo-unionpay.png') }}"  class="w-auto h-10"/>
+                                                        <img src="{{ asset('img/payment-method-fiuu/logo-alipayplus.png') }}"  class="w-auto h-10"/>
+                                                        <img src="{{ asset('img/payment-method-fiuu/logo-wechatpay.png') }}"  class="w-auto h-10"/>
+                                                    </div>
                                                 @endif
-                                                <div>
-                                                    <img src="{{ asset('img/visa-mastercard-.jpg') }}"  class="w-auto h-10"/>
-                                                </div>
                                             </div>
                                         </div>
                                         
@@ -281,7 +305,7 @@
                                         <div
                                             x-show="disableBtn == true"
                                             class="flex items-center justify-end mt-2">
-                                            <a type="button" wire:click="{{ ($selectPayment == 'snapNpay') ? 'buySnapNpay' : 'buy' }}"  class="flex items-center px-3 py-2 text-sm font-medium text-white bg-green-500 rounded-md cursor-pointer hover:bg-green-600 focus:outline-none">
+                                            <a type="button" wire:click="payOrder('{{ $selectPayment }}')"  class="flex items-center px-3 py-2 text-sm font-medium text-white bg-green-500 rounded-md cursor-pointer hover:bg-green-600 focus:outline-none">
                                                 <x-heroicon-o-clipboard-check class="w-5 h-5 mr-2" />
                                                 <span>COMPLETE ORDER</span>
                                             </a>
