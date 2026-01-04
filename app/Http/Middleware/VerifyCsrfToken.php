@@ -16,6 +16,8 @@ class VerifyCsrfToken extends Middleware
         'toyyibpay-callback-mint',
         'toyyibpay-callbackConv',
         'pay2',
+        'payment-fiuu-return',
+        'payment-fiuu-callback',
         //
     ];
 }

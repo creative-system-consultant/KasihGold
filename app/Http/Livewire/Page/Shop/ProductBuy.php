@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Page\Shop;
 
+use App\Constant\FiuuStatus;
 use App\Models\CommissionDetailKap;
 use App\Models\CommissionPromotion;
 use App\Models\FiuuBills;
@@ -441,7 +442,7 @@ class ProductBuy extends Component
         FiuuBills::create([
             'ref_no' => $refPayment,
             'amount' => $finalAmount,
-            'status' => 22, // 22 = Pending, 00 = Success, 11 = Failed --- The status here is retrieved from Fiuu documentation see: https://github.com/FiuuPayment/Documentation-Fiuu_API_Spec/blob/main/Fiuu%20Recurring%20API%20v7.1.4.pdf
+            'status' => FiuuStatus::FIUU_STATUS_PENDING,
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id,
             'created_at' => now(),
@@ -498,9 +499,9 @@ class ProductBuy extends Component
             'bill_desc' => $bill_desc,
             'country' => $country,
             'vcode' => $vcode,
-            'returnurl' => route('fiuu-return'), // Your return URL
-            'callbackurl' => route('fiuu-callback'), // Your callback URL
-            'cancelurl' => route('fiuu-cancel'), // Your cancel URL
+            'returnurl' => url('/payment-fiuu-return'), // Fiuu return URL
+            'callbackurl' => url('/payment-fiuu-callback'), // Fiuu callback URL
+            'cancelurl' => url('/payment-fiuu-cancel'), // Fiuu cancel URL
             
             // Optional parameters
             'channel' => '', // Leave empty for all channels, or specify: FPX, credit, etc.
