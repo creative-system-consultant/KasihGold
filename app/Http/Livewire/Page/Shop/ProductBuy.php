@@ -443,6 +443,10 @@ class ProductBuy extends Component
             'ref_no' => $refPayment,
             'amount' => $finalAmount,
             'status' => FiuuStatus::FIUU_STATUS_PENDING,
+            'user_id' => Session::has('buying_for_customer_id') 
+                ? Session::get('buying_for_customer_id') 
+                : auth()->user()->id,
+            'customer_purchase_flag' => Session::has('buying_for_customer_id') ? 'Y' : 'N',
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id,
             'created_at' => now(),
