@@ -34,10 +34,10 @@
                 @endif
                 
                 <div class="space-y-3">
-                    <a href="{{ route('cart.index') }}" class="inline-block w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-200">
+                    <a href="{{ route('cart') }}" class="inline-block w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-200">
                         Try Again
                     </a>
-                    <a href="{{ route('dashboard') }}" class="inline-block w-full bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition duration-200">
+                    <a href="{{ route('home') }}" class="inline-block w-full bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition duration-200">
                         Back to Dashboard
                     </a>
                 </div>

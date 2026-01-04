@@ -97,9 +97,9 @@ Route::middleware('guest')->group(function () {
     Route::post('toyyibpay-callback-mint', [ToyyibpayController::class, 'callbackMint'])->name('toyyibpay-callback-mint');
     Route::post('toyyibpay-callbackConv', [ToyyibpayController::class, 'callbackConv'])->name('toyyibpay-callbackConv');
     Route::post('pay2', [SnapAPI::class, 'callback'])->name('pay2');
-    Route::get('/payment/fiuu/return', [FiuuController::class, 'fiuuReturn'])->name('fiuu-return');
-    Route::post('/payment/fiuu/callback', [FiuuController::class, 'fiuuCallback'])->name('fiuu-callback');
-    Route::get('/payment/fiuu/cancel', [FiuuController::class, 'fiuuCancel'])->name('fiuu-cancel');
+    Route::post('payment-fiuu-return', [FiuuController::class, 'fiuuReturn'])->name('fiuu-return');
+    Route::post('payment-fiuu-callback', [FiuuController::class, 'fiuuCallback'])->name('fiuu-callback');
+    Route::get('payment-fiuu-cancel', [FiuuController::class, 'fiuuCancel'])->name('fiuu-cancel');
     Route::view('/payment/fiuu-failed', 'fiuu-failed')->name('fiuu-failed');
     Route::view('/payment/fiuu-success', 'fiuu-success')->name('fiuu-success');
 

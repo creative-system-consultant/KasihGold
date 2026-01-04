@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 
-                <a href="{{ route('dashboard') }}" class="inline-block w-full bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition duration-200">
+                <a href="{{ route('home') }}" class="inline-block w-full bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition duration-200">
                     Back to Dashboard
                 </a>
             </div>
@@ -46,7 +46,7 @@
 
     <!-- Fiuu IPN Iframe (Required by Fiuu documentation) -->
     <script type='text/javascript'>
-        var sa = 'VFmerchantId{{ $merchantId }}';
+        var sa = '{{ $merchantId }}';
         window.onload = function() {
             m = document.createElement('IFRAME');
             m.setAttribute('src', "{{ $ipnUrl }}?treq=0&sa=" + sa);
