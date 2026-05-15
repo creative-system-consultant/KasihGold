@@ -46,8 +46,7 @@
                 @endforelse
             </x-slot>
             <div class="px-2 py-2">
-                {{ $history->links('pagination-links') }}
-                {{-- {{ $history->links('pagination::tailwind') }} --}}
+                {{ $history->links('pagination::tailwind') }}
             </div>
         </x-table.table>
     </div>

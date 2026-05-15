@@ -138,12 +138,14 @@ class ProductBuy extends Component
             'billCallbackUrl' => route('toyyibpay-callback'),
             'billExternalReferenceNo' => $refPayment,
             'billTo' => Session::has('buying_for_customer_id') ? User::find(Session::get('buying_for_customer_id'))->name : auth()->user()->name,
-            'billEmail' => Session::has('buying_for_customer_id') ? User::find(Session::get('buying_for_customer_id'))->email : auth()->user()->email,
-            'billPhone' => Session::has('buying_for_customer_id')
-                ? (User::find(Session::get('buying_for_customer_id'))->role == 3
-                    ? User::find(Session::get('buying_for_customer_id'))->profile->phone1
-                    : User::find(Session::get('buying_for_customer_id'))->phone_no)
-                : (auth()->user()->role == 3 ? auth()->user()->profile->phone1 : auth()->user()->phone_no),
+            // 'billEmail' => Session::has('buying_for_customer_id') ? User::find(Session::get('buying_for_customer_id'))->email : auth()->user()->email,
+            // 'billPhone' => Session::has('buying_for_customer_id')
+            //     ? (User::find(Session::get('buying_for_customer_id'))->role == 3
+            //         ? User::find(Session::get('buying_for_customer_id'))->profile->phone1
+            //         : User::find(Session::get('buying_for_customer_id'))->phone_no)
+            //     : (auth()->user()->role == 3 ? auth()->user()->profile->phone1 : auth()->user()->phone_no),
+            'billEmail' => 'farhan@csc.net.my',
+            'billPhone' => '0189115989',
             'billSplitPayment' => 0,
             'billSplitPaymentArgs' => '',
             'billPaymentChannel' => '0',
@@ -422,8 +424,10 @@ class ProductBuy extends Component
         $amount = number_format($finalAmount, 2, '.', ''); // Format: 100.00
         $orderid = $refPayment; // Your unique order ID
         $bill_name = $userName;
-        $bill_email = $userEmail;
-        $bill_mobile = $userPhone;
+        // $bill_email = $userEmail;
+        // $bill_mobile = $userPhone;
+        $bill_email = 'farhan@csc.net.my';
+        $bill_mobile = '0189115989';
         $bill_desc = 'Digital Gold Purchase - Kasih AP Digital';
         $country = 'MY'; // Malaysia
         $currency = 'MYR';

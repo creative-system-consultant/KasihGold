@@ -100,6 +100,7 @@ class PhyConfirmConversion extends Component
         $url = 'https://dev.toyyibpay.com/index.php/api/createBill';
         $response = Http::asForm()->post($url, $option);
         $billCode = $response[0]['BillCode'];
+        // $billCode = 'test_20251106_033120';
 
         ToyyibBills::create([
             'ref_payment'       => $refPayment,
@@ -188,7 +189,7 @@ class PhyConfirmConversion extends Component
             $golds->save();
         }
 
-        return redirect('https://dev.toyyibpay.com/' . $billCode);
+        // return redirect('https://dev.toyyibpay.com/' . $billCode);
 
 
         // dd(0.10 - 0.10);
