@@ -266,6 +266,13 @@ class ToyyibpayController extends Controller
                     ->where('ex_id', $phyConv->id)
                     ->where('active_ownership', 0)
                     ->get();
+
+                foreach ($goldOwnership as $golds) {
+                    $golds->update([
+                        'active_ownership' => 1,
+                        'ex_flag' => 3, //0 is in process, 1 is successful, 2 is pending, 3 is failure
+                    ]);
+                }
             }
         }
     }

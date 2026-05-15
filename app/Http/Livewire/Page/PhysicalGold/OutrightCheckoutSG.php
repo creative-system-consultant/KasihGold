@@ -68,12 +68,13 @@ class OutrightCheckoutSG extends Component
         foreach ($totalGoldbar as $item) {
             $buffer_grammage = $current_grammage;
 
-            if ($buffer_grammage != 0) {
+            if (round($buffer_grammage, 4) > 0) {
                 if ($current_grammage > $item->available_weight) {
                     $current_grammage -= $item->available_weight;
-                    $buffer_grammage = $item->available_weight;
+                    $buffer_grammage = round($item->available_weight, 4);
                 } else {
-                    $current_grammage -= $buffer_grammage;
+                    $buffer_grammage = $current_grammage;
+                    $current_grammage = 0;
                 }
 
 
