@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile_bank_info;
 use App\Models\Profile_nominee;
 use App\Models\Profile_personal;
 use Illuminate\Http\Request;
@@ -36,6 +37,17 @@ class ProfileController extends Controller
     {
         Profile_personal::where('user_id', $id)->update([
             'ic_back' => NULL,
+        ]);
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function deleteBankStatement($id)
+    {
+        Profile_bank_info::where('user_id', $id)->update([
+            'bank_statement' => NULL,
         ]);
 
         return response()->json([

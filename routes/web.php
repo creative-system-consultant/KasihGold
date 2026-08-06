@@ -124,6 +124,7 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'index'])->name('profile')->middleware('verified.otp');
     Route::post('profile/ic_front/{id}', [ProfileController::class, 'deleteIcFront'])->name('profile.deleteIcFront');
     Route::post('profile/ic_back/{id}', [ProfileController::class, 'deleteIcBack'])->name('profile.deleteIcBack');
+    Route::post('profile/bank_statement/{id}', [ProfileController::class, 'deleteBankStatement'])->name('profile.deleteBankStatement');
     Route::get('nomineePDF', [ProfileController::class, 'nomineePDF'])->name('nomineePDF');
 
     Route::middleware(['passScreen', 'verified.otp'])->group(function () {
