@@ -19,16 +19,16 @@
                 <x-heroicon-o-shopping-bag class="w-8 h-8 text-indigo-400" />
             </x-slot>
         </x-dashboard.info-card-user>
-          <x-dashboard.info-card-user bg="pink-400" title="" value="Ar-Rahnu Pawn" iconColor='white'
+        {{-- <x-dashboard.info-card-user bg="pink-400" title="" value="Ar-Rahnu Pawn" iconColor='white'
             cardRoute="{{route('arrahnuPawn')}}">
             <x-slot name="svg">
                 <x-heroicon-o-cash class="w-8 h-8 text-pink-400" />
             </x-slot>
-        </x-dashboard.info-card-user>
+        </x-dashboard.info-card-user> --}}
     </div>
     <div class="col-span-12 mt-10 sm:col-span-12 md:col-span-12 lg:col-span-6 xxl:col-span-6" >
         <div class="p-4 bg-white rounded-md shadow-md">
-            <p class="mb-2 text-lg font-semibold">Kap Gold Product</p>
+            <p class="mb-2 text-lg font-semibold">CSC Gold Product</p>
             <div class="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-1">
                 <div class="px-2 py-4 rounded-md shadow-sm bg-gray-50">
                 <x-general.grid mobile="1" gap="0" sm="2" md="2" lg="2" xl="2" class="w-full col-span-12">

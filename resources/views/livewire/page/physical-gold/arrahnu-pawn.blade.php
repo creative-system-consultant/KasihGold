@@ -58,7 +58,7 @@
                                     <img class="object-cover w-16 h-16 rounded"
                                     src="{{ asset('img/product/1/9/d1.png') }}" alt="">
                                     <div>
-                                        <h3 class="text-sm font-semibold ">Kasih AP Flexible Gold</h3>
+                                        <h3 class="text-sm font-semibold ">CSC Flexible Gold</h3>
                                     </div>
                                 </div>
                             </x-table.table-body>
@@ -92,7 +92,7 @@
                                     <img class="object-cover w-16 h-16 rounded"
                                     src="{{ asset('img/product/1/9/d1.png') }}" alt="">
                                     <div>
-                                        <h3 class="text-sm font-semibold">Kasih AP Digital Gold</h3>
+                                        <h3 class="text-sm font-semibold">CSC Digital Gold</h3>
                                     </div>
                                 </div>
                             </x-table.table-body>
@@ -138,7 +138,7 @@
                                 <div>
                                     <img class="object-cover w-16 h-16 rounded"
                                     src="{{ asset('img/product/1/9/d1.png') }}" alt="">
-                                    <h3 class="text-sm font-semibold">Kasih AP Gold Wafer</h3>
+                                    <h3 class="text-sm font-semibold">CSC Gold Wafer</h3>
                                 </div>
                                 <div class="relative flex flex-row w-24 h-10 mt-1 bg-transparent rounded-lg">
                                     <input type="text"

@@ -1,6 +1,6 @@
 <x-general.card class="mt-2 mb-20 bg-white shadow-lg sm:mb-0">
     <x-note-card>
-        1. Please take note that the information submitted will not be reflected on your account untill it has been reviewed by Kasih AP staffs.
+        1. Please take note that the information submitted will not be reflected on your account untill it has been reviewed by CSC staffs.
         <br>
         2. To change information in locked field, please contact your nearest branch.
     </x-note-card>

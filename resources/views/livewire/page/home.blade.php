@@ -138,7 +138,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr class="border-b-2 border-gray-100">
-                                                            <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">Kasih Digital <br>0.01 g</td>
+                                                            <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">CSC Digital <br>0.01 g</td>
                                                             <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">
                                                                 RM {{ number_format( array_sum($chart1->where('weight',0.01)->pluck('bought_price')->toArray()),2) }}
                                                             </td>
@@ -161,7 +161,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr class="border-b-2 border-gray-100">
-                                                            <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">Kasih Digital <br>0.10 g</td>
+                                                            <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">CSC Digital <br>0.10 g</td>
                                                             <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">
                                                                 RM {{ number_format( array_sum($chart1->where('weight',0.1)->pluck('bought_price')->toArray()),2) }}
                                                             </td>
@@ -184,7 +184,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr class="border-b-2 border-gray-100">
-                                                            <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">Kasih Digital <br>0.25 g</td>
+                                                            <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">CSC Digital <br>0.25 g</td>
                                                             <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">
                                                                 RM {{ number_format( array_sum($chart1->where('weight',0.25)->pluck('bought_price')->toArray()),2) }}
                                                             </td>
@@ -207,7 +207,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr class="border-b-2 border-gray-100">
-                                                            <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">Kasih Digital <br>1.00 g</td>
+                                                            <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">CSC Digital <br>1.00 g</td>
                                                             <td class="p-4 text-sm font-medium text-center text-gray-900 whitespace-nowrap">
                                                                 RM {{ number_format( array_sum($chart1->where('weight',1)->pluck('bought_price')->toArray()),2) }}
                                                             </td>

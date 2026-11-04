@@ -127,7 +127,7 @@ class ProductBuy extends Component
         $option = array(
             'userSecretKey' => config('toyyibpay.key'),
             'categoryCode' => config('toyyibpay.category'),
-            'billName' => 'Kasih AP Digital',
+            'billName' => 'CSC Digital',
             'billDescription' => 'Digital Gold Purchase',
             'billPriceSetting' => 1,
             'billPayorInfo' => 1,
@@ -424,7 +424,7 @@ class ProductBuy extends Component
         $bill_name = $userName;
         $bill_email = $userEmail;
         $bill_mobile = $userPhone;
-        $bill_desc = 'Digital Gold Purchase - Kasih AP Digital';
+        $bill_desc = 'Digital Gold Purchase - CSC Digital';
         $country = 'MY'; // Malaysia
         $currency = 'MYR';
         $recordType = 'T';

@@ -154,7 +154,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <p class="text-sm text-blue-700">
-                                        If you are <span class="font-bold">MEMBER of KasihGold</span> or <span class="font-bold">any Cooperative/Institution registered as Agent of Kasih AP Gold</span>, please get your referral code from KasihGold or Cooperative/Institution.
+                                        If you are <span class="font-bold">MEMBER of CSC Gold</span> or <span class="font-bold">any Cooperative/Institution registered as Agent of CSC Gold</span>, please get your referral code from CSC Gold or Cooperative/Institution.
                                     </p>
                                     {{-- <br>
                                     <p class="text-sm text-blue-700">

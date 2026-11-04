@@ -66,7 +66,7 @@
                     </tr>
                     <tr>
                         <td class="text-left" colspan="5" style="padding-left: 30px;">
-                            1.Penama adalah benefisiari untuk menerima insentif bagi akaun Kasih ap Gold saya. 
+                            1.Penama adalah benefisiari untuk menerima insentif bagi akaun CSC Gold saya. 
                             <br>
                             2.Pembayaran insentif saya kepada penama akan terbatal JIKA : - <br>
                             <ol>
@@ -76,7 +76,7 @@
                                     <b>ATAU</b>
                                 </li>
                                 <li>
-                                    Tiada notis kematian diserah oleh penama kepada Kasih ap Gold dalam tempoh 3 bulan dari tarikh kematian saya.
+                                    Tiada notis kematian diserah oleh penama kepada CSC Gold dalam tempoh 3 bulan dari tarikh kematian saya.
                                 </li>
                             </ol>
                             <br>
@@ -87,7 +87,7 @@
                     </tr>
                     <tr>
                         <td class="text-left" colspan="5">
-                            Saya dengan ini memohon untuk menamakan individu yang disenaraikan di bawah ini sebagai PENAMA kepada akaun Kasih ap Gold saya.
+                            Saya dengan ini memohon untuk menamakan individu yang disenaraikan di bawah ini sebagai PENAMA kepada akaun CSC Gold saya.
                             <br>
                             <br>
                             <table class="w-full" style="border:1px solid black;border-collapse:collapse;">
@@ -183,9 +183,9 @@
                                 </p>
                                 3.Kuat kuasa Penamaan:- <br>
                                 <p style="padding-left: 44px">
-                                    a.Borang penamaan hendaklah diterima oleh Kasih ap Gold semasa pengedar masih hidup.<br> 
-                                    b.Penamaan berkuat kuasa pada tarikh Kasih ap Gold menerima Borang Penamaan daripada pengedar.<br>
-                                    c.Insentif pengedar akan dibayar kepada penama selepas Kasih ap Gold menerima maklumat dan butiran yang lengkap (pengenalan diri 
+                                    a.Borang penamaan hendaklah diterima oleh CSC Gold semasa pengedar masih hidup.<br> 
+                                    b.Penamaan berkuat kuasa pada tarikh CSC Gold menerima Borang Penamaan daripada pengedar.<br>
+                                    c.Insentif pengedar akan dibayar kepada penama selepas CSC Gold menerima maklumat dan butiran yang lengkap (pengenalan diri 
                                     <br>&nbsp;&nbsp;&nbsp;Pengedar dan Penama, Certified True Copy-Sijil Kematian) selepas kematian pengedar. 
                                     <br>&nbsp;&nbsp;&nbsp;(Tiada bayaran balik dari tarikh kematian pengedar sehinggatarikh kemaskini)
                                 </p>
@@ -196,7 +196,7 @@
                                     c.Penamaan baharu dibuat.<br>
                                     d.Maklumat yang dikemukakan dalam Penamaan pengedar adalah maklumat palsu.<br>
                                     e.Penama meninggal dunia (selepas kematian pengedar) dan insentif pengedar belum dibayar kepada penama.<br>
-                                    f.Tiada notis dibuat oleh penama kepada Kasih AP Gold dalam tempoh 3 bulan dari tarikh kematian pengedar.<br>
+                                    f.Tiada notis dibuat oleh penama kepada CSC Gold dalam tempoh 3 bulan dari tarikh kematian pengedar.<br>
                                 </p>
                                 <br>
                             </td>

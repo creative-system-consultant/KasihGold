@@ -40,7 +40,7 @@
                                     <img class="object-cover w-16 h-16 rounded" 
                                     src="{{ asset('img/product/1/9/d1.png') }}" alt="">
                                     <div>
-                                        <h3 class="text-sm font-semibold">Kasih AP Gold Wafer</h3>
+                                        <h3 class="text-sm font-semibold">CSC Gold Wafer</h3>
                                     </div>
                                 </div>
                             </x-table.table-body>
@@ -76,7 +76,7 @@
                                 <div>
                                     <img class="object-cover w-16 h-16 rounded" 
                                     src="{{ asset('img/product/1/9/d1.png') }}" alt="">
-                                    <h3 class="text-sm font-semibold">Kasih AP Gold Wafer</h3>
+                                    <h3 class="text-sm font-semibold">CSC Gold Wafer</h3>
                                 </div>
                                 <div class="flex flex-row h-10 w-24 rounded-lg relative bg-transparent mt-1">
                                     <input type="text"

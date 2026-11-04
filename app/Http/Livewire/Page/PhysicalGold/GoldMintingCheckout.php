@@ -98,7 +98,7 @@ class GoldMintingCheckout extends Component
         $option = array(
             'userSecretKey' => config('toyyibpay.key'),
             'categoryCode' => config('toyyibpay.category'),
-            'billName' => 'Kasih AP Digital',
+            'billName' => 'CSC Digital',
             'billDescription' => 'Digital Gold to Physical Gold Conversion Postage Fee',
             'billPriceSetting' => 1,
             'billPayorInfo' => 1,

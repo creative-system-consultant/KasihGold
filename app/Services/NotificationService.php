@@ -34,7 +34,7 @@ class NotificationService
     {
         $prefix = '';
         if ($notificationType === 'sms') {
-            $prefix = 'RM0.00 KASIH AP GOLD: ';
+            $prefix = 'RM0.00 CSC GOLD: ';
         }
 
         return $prefix . 'Permohonan Lelongan ' . strtoupper($cust->name) . ' (' . $cust->profile->ic . ') bagi *' . $lelongan->siri_no . '* sebanyak *RM ' . number_format($lelongan->bid, 2) . '* telah berjaya dihantar. Sila semak status permohonan anda dari semasa ke semasa. Terima kasih.';

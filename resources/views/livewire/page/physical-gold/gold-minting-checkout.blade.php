@@ -63,7 +63,7 @@
                                                 src="{{ asset('img/product/1/9/d1.png') }}"
                                                 alt="">
                                             <div class="mx-3 my-3">
-                                                <h3 class="text-sm text-gray-600">Kasih AP Gold Wafer</h3>
+                                                <h3 class="text-sm text-gray-600">CSC Gold Wafer</h3>
                                                 <h4 class="text-sm text-gray-600"><b>{{$GoldMintQTY}} gram</b></h4>
                                             </div>
                                         </div>

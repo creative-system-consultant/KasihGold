@@ -458,11 +458,11 @@
 
                                         <table align="center" style="margin-bottom:20px; width:80%">
                                             <tr>
-                                                <td colspan="2" style="font-weight: bold; font-size:12px; text-align:center;">Terima kasih kerana menggunakan Kasih AP Gold!</td>
+                                                <td colspan="2" style="font-weight: bold; font-size:12px; text-align:center;">Terima kasih kerana menggunakan CSC Gold!</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2" style="padding-top:5px; font-weight: bold; font-size:12px; text-align:center;">Sebarang Soalan boleh menghubungi
-                                                    <a href="mailto:customersupport@kasihapgold.com" style="color:#fcc200">Kasih AP Customer Support</a>
+                                                    <a href="mailto:customersupport@kasihapgold.com" style="color:#fcc200">CSC Customer Support</a>
                                                 </td>
                                             </tr>
                                         </table>
@@ -478,7 +478,7 @@
                                 role="presentation">
                                 <tr>
                                     <td class="content-cell" align="center" style="color:rgba(253, 194, 2, 0.979)">
-                                        © {{ date('Y') }} Kasih AP Gold. @lang('All rights reserved.')
+                                        © {{ date('Y') }} CSC Gold. @lang('All rights reserved.')
                                     </td>
                                 </tr>
                             </table>

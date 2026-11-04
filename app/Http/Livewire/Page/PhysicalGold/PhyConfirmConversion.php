@@ -76,41 +76,42 @@ class PhyConfirmConversion extends Component
 
 
 
-        $option = array(
-            'userSecretKey' => config('toyyibpay.key'),
-            'categoryCode' => config('toyyibpay.category'),
-            'billName' => 'Kasih AP Digital',
-            'billDescription' => 'Digital Gold to Physical Gold Conversion Postage Fee',
-            'billPriceSetting' => 1,
-            'billPayorInfo' => 1,
-            'billAmount' => 1000, // Dikira dalam bentuk sen. Maksudnya dekat sini RM10
-            'billReturnUrl' => route('toyyibpay-status-conv'),
-            'billCallbackUrl' => route('toyyibpay-callbackConv'),
-            'billExternalReferenceNo' => $refPayment,
-            'billTo' => auth()->user()->name,
-            'billEmail' => auth()->user()->email,
-            'billPhone' => (auth()->user()->role == 3) ? auth()->user()->profile->phone1 : auth()->user()->phone_no,
-            'billSplitPayment' => 0,
-            'billSplitPaymentArgs' => '',
-            'billPaymentChannel' => '0',
-            'billContentEmail' => 'Thank you for purchasing our product!',
-            'billChargeToCustomer' => 1
-        );
+        // $option = array(
+        //     'userSecretKey' => config('toyyibpay.key'),
+        //     'categoryCode' => config('toyyibpay.category'),
+        //     'billName' => 'Kasih AP Digital',
+        //     'billDescription' => 'Digital Gold to Physical Gold Conversion Postage Fee',
+        //     'billPriceSetting' => 1,
+        //     'billPayorInfo' => 1,
+        //     'billAmount' => 1000, // Dikira dalam bentuk sen. Maksudnya dekat sini RM10
+        //     'billReturnUrl' => route('toyyibpay-status-conv'),
+        //     'billCallbackUrl' => route('toyyibpay-callbackConv'),
+        //     'billExternalReferenceNo' => $refPayment,
+        //     'billTo' => auth()->user()->name,
+        //     'billEmail' => auth()->user()->email,
+        //     'billPhone' => (auth()->user()->role == 3) ? auth()->user()->profile->phone1 : auth()->user()->phone_no,
+        //     'billSplitPayment' => 0,
+        //     'billSplitPaymentArgs' => '',
+        //     'billPaymentChannel' => '0',
+        //     'billContentEmail' => 'Thank you for purchasing our product!',
+        //     'billChargeToCustomer' => 1
+        // );
 
-        $url = 'https://dev.toyyibpay.com/index.php/api/createBill';
-        $response = Http::asForm()->post($url, $option);
-        $billCode = $response[0]['BillCode'];
+        // $url = 'https://dev.toyyibpay.com/index.php/api/createBill';
+        // $response = Http::asForm()->post($url, $option);
+        // $billCode = $response[0]['BillCode'];
+        $billCode = 'test_20251106_033120';
 
-        ToyyibBills::create([
-            'ref_payment'       => $refPayment,
-            'bill_code'         => $billCode,
-            'bill_amount'       => 10,
-            'status'            => 2,
-            'created_by'        => auth()->user()->id,
-            'updated_by'        => auth()->user()->id,
-            'created_at'        => now(),
-            'updated_at'        => now(),
-        ]);
+        // ToyyibBills::create([
+        //     'ref_payment'       => $refPayment,
+        //     'bill_code'         => $billCode,
+        //     'bill_amount'       => 10,
+        //     'status'            => 2,
+        //     'created_by'        => auth()->user()->id,
+        //     'updated_by'        => auth()->user()->id,
+        //     'created_at'        => now(),
+        //     'updated_at'        => now(),
+        // ]);
 
 
         $physicalConv = PhysicalConvert::create([
@@ -188,7 +189,9 @@ class PhyConfirmConversion extends Component
             $golds->save();
         }
 
-        return redirect('https://dev.toyyibpay.com/' . $billCode);
+        // return redirect('https://dev.toyyibpay.com/' . $billCode);
+
+        return redirect('home');
 
 
         // dd(0.10 - 0.10);

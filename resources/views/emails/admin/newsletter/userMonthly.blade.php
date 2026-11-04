@@ -316,7 +316,7 @@
                                                                 rel="noopener">customersupport@kasihapgold.com</a> atau
                                                             whatapps kami di 0127499771</p>
                                                         <p>Terima kasih.</p>
-                                                        <p>Kasih AP Gold Sdn. Bhd.</p>
+                                                        <p>CSC Gold Sdn. Bhd.</p>
                                                         <div style="margin-top:20px; border-top: 1px solid rgb(196, 196, 196);"></div>
                                                         <h4 style="padding-bottom:10px;" >Dear clients,</h4>
                                                         <p>Thank you  <span class="bold" > {{ $name }} </span> for being our customer.</p>
@@ -332,7 +332,7 @@
                                                                 rel="noopener">customersupport@kasihapgold.com</a> or whatapps us in
                                                             0127499771</p>
                                                         <p>Thank you.</p>
-                                                        <p>Kasih AP Gold Sdn. Bhd.</p>
+                                                        <p>CSC Gold Sdn. Bhd.</p>
                                                     </td>
                                                 </tr>
                                             </tbody>
